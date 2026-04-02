@@ -1,0 +1,173 @@
+.service-detail-page {
+    padding-top: 150px;
+    padding-bottom: 100px;
+    min-height: 80vh;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+.detail-header {
+    text-align: center;
+    margin-bottom: 5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.detail-title {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.detail-desc {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+}
+
+.section-subtitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-main);
+}
+
+/* Sidebar */
+.benefits-list {
+    margin-bottom: 3rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.check-icon {
+    color: #4dff9b;
+}
+
+.sidebar-cta {
+    padding: 2.5rem;
+    border-radius: 24px;
+    text-align: center;
+}
+
+.sidebar-cta h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-cta p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Plans Grid */
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.plan-card {
+    padding: 2.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.plan-name {
+    font-size: 1.3rem;
+    font-weight: 800;
+    max-width: 150px;
+}
+
+.plan-price {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary);
+    background: rgba(155, 77, 255, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    white-space: nowrap;
+}
+
+.plan-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.plan-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.plan-btn:hover {
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+@media (max-width: 992px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .detail-title {
+        font-size: 2.5rem;
+    }
+    .detail-desc {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,114 @@
+.customers-section {
+    position: relative;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+.testimonial-card {
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.quote-icon {
+    position: absolute;
+    top: -20px;
+    right: 2rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+
+.stars {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.author-role {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Client Logo Slider */
+.clients-slider {
+    overflow: hidden;
+    padding: 3rem 0;
+    position: relative;
+}
+
+.slider-track {
+    display: flex;
+    gap: 3rem;
+    width: fit-content;
+    animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100px * 6)); }
+}
+
+.client-logo {
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.client-logo:hover {
+    opacity: 1;
+    border-color: var(--primary);
+    color: var(--primary);
+}
