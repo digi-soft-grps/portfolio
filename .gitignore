@@ -4,13 +4,28 @@ dist/
 build/
 .env
 
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
 # Python
 __pycache__/
 venv/
 *.pyc
-.env
 db.sqlite3
 
-# Git
+# OS
 .DS_Store
+Thumbs.db
+
+# Editor
 .vscode/
+
+# Vite
+.vite/
+
+# Coverage
+coverage/
