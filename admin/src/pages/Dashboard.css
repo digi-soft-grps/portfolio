@@ -1,0 +1,180 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+  overflow: hidden;
+}
+
+/* 🔹 LEFT SIDEBAR (FIXED + FULL HEIGHT) */
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column; /* Vertical stack */
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  flex-shrink: 0;
+}
+
+/* Sidebar Top Section */
+.sidebar-header {
+  padding: 32px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 20px;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.logo-circle-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  border: 1px solid #e2e8f0;
+}
+
+/* Sidebar Middle Section */
+.sidebar-nav {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1; /* ✅ Middle section takes available space */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.nav-item.active {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Sidebar Bottom Section */
+.sidebar-footer {
+  padding: 24px;
+  margin-top: auto; /* ✅ Pushes this section to the absolute bottom */
+  border-top: 1px solid #f1f5f9;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.logout-btn:hover {
+  background-color: #ffe4e6;
+  border-color: #e11d48;
+}
+
+/* 🔹 RIGHT CONTENT (SCROLLABLE + SPACED) */
+.dashboard-main {
+  flex: 1;
+  margin-left: 280px; /* Leave space for sidebar */
+  height: 100vh;
+  overflow-y: auto; /* ✅ Enable scroll */
+  padding: 40px 48px 128px 48px; /* ✅ pb-32: extra breathing space */
+  scroll-behavior: smooth;
+  background-color: #f8fafc;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+  color: #0f172a;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.profile-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+}
+
+/* 🔹 TOP SECTION (FORM + PREVIEW) */
+.top-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px; /* ✅ spacing between form and preview */
+  margin-bottom: 48px;
+}
+
+/* Cards are styled within ServiceManager.css */
+
+/* 🔹 BOTTOM SECTION (EXISTING SERVICES) */
+.bottom-layout {
+  margin-top: 48px; /* ✅ Separation between top and bottom */
+  padding-bottom: 24px;
+}
+
+/* Rest of content handled by components... */
+
+/* Responsive Overlay Fix */
+@media (max-width: 1024px) {
+  .sidebar { width: 80px; }
+  .sidebar span, .nav-item span { display: none; }
+  .dashboard-main { margin-left: 80px; }
+}
