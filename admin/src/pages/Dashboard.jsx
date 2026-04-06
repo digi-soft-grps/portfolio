@@ -1,68 +1,74 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutGrid } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import ServiceManager from '../components/ServiceManager';
+import React from 'react';
+import { Briefcase, Users, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './Dashboard.css';
 
 const Dashboard = () => {
-    const navigate = useNavigate();
-    const [adminInfo, setAdminInfo] = useState(null);
-
-    // ✅ FIX 2: PREVENT UI FLASH/SHIFT
-    useLayoutEffect(() => {
-        document.body.style.opacity = "1";
-    }, []);
-
-    useEffect(() => {
-        const info = localStorage.getItem('adminInfo');
-        if (info) {
-            setAdminInfo(JSON.parse(info));
-        } else {
-            navigate('/login');
+    // Mock Data (In a real app, these would come from an API)
+    const stats = [
+        { 
+            id: 1, 
+            label: 'Total Services', 
+            value: '12', 
+            icon: Briefcase, 
+            trend: '+2 this month',
+            color: 'purple' 
+        },
+        { 
+            id: 2, 
+            label: 'Total Customers', 
+            value: '45', 
+            icon: Users, 
+            trend: '+12% increase',
+            color: 'blue' 
         }
-    }, [navigate]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminInfo');
-        navigate('/login');
-    };
-
-    if (!adminInfo) return null;
+    ];
 
     return (
-        <motion.div 
-            className="dashboard-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-        >
-            <aside className="sidebar">
-                <div className="sidebar-header">
-                    <div className="logo-circle-small">DD</div>
-                    <span>Dual Dreams</span>
+        <div className="dashboard-home">
+            <div className="stats-grid">
+                {stats.map((stat, index) => {
+                    const Icon = stat.icon;
+                    return (
+                        <motion.div 
+                            key={stat.id}
+                            className="stat-card"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                            whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                        >
+                            <div className={`icon-box ${stat.color}`}>
+                                <Icon size={24} />
+                            </div>
+                            <div className="stat-info">
+                                <span className="stat-label">{stat.label}</span>
+                                <div className="stat-value-row">
+                                    <h2 className="stat-number">{stat.value}</h2>
+                                    <div className="stat-trend">
+                                        <ArrowUpRight size={14} />
+                                        <span>{stat.trend}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+            </div>
+
+            {/* Placeholder for future expansion - Keeping it minimal for now */}
+            <motion.div 
+                className="welcome-banner"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+            >
+                <div className="banner-content">
+                    <h3>Ready to grow?</h3>
+                    <p>Manage your business services and customer base from one central location.</p>
                 </div>
-                <nav className="sidebar-nav">
-                    <button className="nav-item active">
-                        <LayoutGrid size={20} /> Add Service
-                    </button>
-                </nav>
-                <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={handleLogout}>
-                        <LogOut size={20} /> Sign Out
-                    </button>
-                </div>
-            </aside>
-            <main className="dashboard-main">
-                <header className="dashboard-header">
-                    <h1>Portal Dashboard</h1>
-                </header>
-                <div className="dashboard-content">
-                    <ServiceManager />
-                </div>
-            </main>
-        </motion.div>
+            </motion.div>
+        </div>
     );
 };
 

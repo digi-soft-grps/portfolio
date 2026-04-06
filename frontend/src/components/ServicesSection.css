@@ -28,8 +28,20 @@
 /* Services Grid */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr); /* Force 3 columns on desktop */
+    gap: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    }
+}
+
+@media (max-width: 640px) {
+    .services-grid {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+    }
 }
 
 .service-card {
@@ -39,8 +51,13 @@
     overflow: hidden;
     transition: var(--transition);
     height: 100%;
+    min-height: 380px; /* Ensure a vertical feel */
     display: flex;
     flex-direction: column;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
 }
 
 .service-card:hover {
@@ -81,13 +98,14 @@
     font-size: 1.2rem;
     font-weight: 800;
     opacity: 0.2;
-    font-family: serif;
+    color: white;
 }
 
 .service-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: white;
 }
 
 .service-desc {
@@ -106,12 +124,24 @@
     color: var(--primary);
 }
 
-.service-link span {
-    transition: var(--transition);
+.loading-container, .empty-services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 100px 0;
+    color: var(--text-muted);
+    text-align: center;
 }
 
-.service-link:hover span {
-    transform: translateX(5px);
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {

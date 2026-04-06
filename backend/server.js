@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import customerRoutes from './routes/customerRoutes.js';
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/customers', customerRoutes);
 
 // Database Connection
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio';

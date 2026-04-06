@@ -1,41 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Globe, Smartphone, BarChart, PenTool } from 'lucide-react';
+import { 
+    Globe, Smartphone, BarChart, PenTool, Code, Rocket, 
+    Settings, Target, Briefcase, Zap, Shield, Mail, Package, Loader2
+} from 'lucide-react';
 import './ServicesSection.css';
 
-const services = [
-    {
-        id: 'web-development',
-        title: 'Web Development',
-        desc: 'Custom, responsive websites built with the latest technologies for maximum performance.',
-        icon: <Globe size={40} className="service-icon" />,
-        color: '#9b4dff'
-    },
-    {
-        id: 'app-development',
-        title: 'App Development',
-        desc: 'Native and cross-platform mobile apps that provide seamless experiences across all devices.',
-        icon: <Smartphone size={40} className="service-icon" />,
-        color: '#00d2ff'
-    },
-    {
-        id: 'digital-marketing',
-        title: 'Digital Marketing',
-        desc: 'Strategies that drive traffic, increase conversions, and grow your brand presence online.',
-        icon: <BarChart size={40} className="service-icon" />,
-        color: '#ff4d9b'
-    },
-    {
-        id: 'ui-ux-design',
-        title: 'UI/UX Design',
-        desc: 'User-centric designs that are visually stunning and intuitive to use, enhancing user satisfaction.',
-        icon: <PenTool size={40} className="service-icon" />,
-        color: '#4dff9b'
-    }
-];
+const ICON_MAP = {
+    globe: Globe,
+    smartphone: Smartphone,
+    barchart: BarChart,
+    pentool: PenTool,
+    code: Code,
+    rocket: Rocket,
+    settings: Settings,
+    target: Target,
+    briefcase: Briefcase,
+    zap: Zap,
+    shield: Shield,
+    mail: Mail
+};
 
 const ServiceCard = ({ service, index }) => {
+    const IconComponent = ICON_MAP[service.icon] || Package;
+    const formattedIndex = (index + 1).toString().padStart(2, '0');
+
     return (
         <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -45,21 +34,41 @@ const ServiceCard = ({ service, index }) => {
             whileHover={{ y: -10 }}
             className="service-card glass"
         >
-            <div className="service-glow" style={{ backgroundColor: service.color }}></div>
+            <div className="service-glow" style={{ backgroundColor: '#9b4dff' }}></div>
             <div className="service-header">
-                {service.icon}
-                <div className="service-index">0{index + 1}</div>
+                <IconComponent size={40} className="service-icon" />
+                <div className="service-index">{formattedIndex}</div>
             </div>
             <h3 className="service-title">{service.title}</h3>
-            <p className="service-desc">{service.desc}</p>
-            <Link to={`/services/${service.id}`} className="service-link">
+            <p className="service-desc">{service.description}</p>
+            <div className="service-link">
                 Learn More <span>&rarr;</span>
-            </Link>
+            </div>
         </motion.div>
     );
 };
 
 const ServicesSection = () => {
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/services');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const data = await response.json();
+                setServices(data);
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchServices();
+    }, []);
+
     return (
         <section id="services" className="services-section">
             <div className="container">
@@ -71,15 +80,27 @@ const ServicesSection = () => {
                     </p>
                 </div>
                 
-                <div className="services-grid">
-                    {services.map((service, index) => (
-                        <ServiceCard key={service.id} service={service} index={index} />
-                    ))}
-                </div>
+                {loading ? (
+                    <div className="loading-container">
+                        <Loader2 className="spinner" size={48} color="#9b4dff" />
+                        <p>Loading our expertise...</p>
+                    </div>
+                ) : (
+                    <div className="services-grid">
+                        {services.length > 0 ? (
+                            services.map((service, index) => (
+                                <ServiceCard key={service._id} service={service} index={index} />
+                            ))
+                        ) : (
+                            <div className="empty-services">
+                                <p>Our team is preparing something new. Stay tuned!</p>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </section>
     );
 };
 
 export default ServicesSection;
-export { services };

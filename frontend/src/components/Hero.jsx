@@ -23,8 +23,8 @@ const Hero = () => {
                         <span>Innovating for the Digital Future</span>
                     </div>
                     
-                    <h1 className="hero-title text-gradient">
-                        We Build <span className="highlight">Digital Experiences</span> That Grow Your Business
+                    <h1 className="hero-title">
+                        We Build Digital Experiences That Grow Your Business
                     </h1>
                     
                     <p className="hero-desc">

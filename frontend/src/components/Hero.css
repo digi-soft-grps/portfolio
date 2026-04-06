@@ -2,9 +2,10 @@
     position: relative;
     padding-top: 180px;
     padding-bottom: 150px;
-    overflow: visible;
+    overflow: hidden;
 }
 
+/* Background glow */
 .hero-bg {
     position: absolute;
     top: 0;
@@ -36,6 +37,7 @@
     background: var(--accent);
 }
 
+/* Badge */
 .badge {
     padding: 0.6rem 1.2rem;
     border-radius: 50px;
@@ -51,34 +53,39 @@
     color: var(--primary);
 }
 
+/* HERO TITLE (MAIN FIX) */
 .hero-title {
     font-size: 4.5rem;
     line-height: 1.1;
     font-weight: 900;
     margin-bottom: 2rem;
     max-width: 900px;
+
+    /* ✅ SINGLE COLOR (your "We" color) */
+    color: #f8e9ac;
 }
 
+/* Remove highlight difference */
 .hero-title .highlight {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: inherit;
 }
 
+/* Description */
 .hero-desc {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: var(--text-muted); /* ✅ FIXED (not yellow) */
     max-width: 650px;
     margin-bottom: 3rem;
 }
 
+/* Buttons */
 .hero-actions {
     display: flex;
     gap: 1.5rem;
     margin-bottom: 4rem;
 }
 
+/* Stats */
 .hero-stats {
     display: flex;
     align-items: center;
@@ -100,6 +107,7 @@
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 1.2;
+    color: var(--text-primary);
 }
 
 .stat-label {
@@ -114,7 +122,7 @@
     background: var(--glass-border);
 }
 
-/* Visualization */
+/* Layout */
 .hero-container {
     display: flex;
     align-items: center;
@@ -122,6 +130,7 @@
     gap: 4rem;
 }
 
+/* Right visual */
 .hero-visual {
     position: relative;
     flex: 1;
@@ -179,6 +188,7 @@
     border-radius: 10px;
 }
 
+/* Aura */
 .visual-aura {
     position: absolute;
     width: 120%;
@@ -190,10 +200,12 @@
     z-index: 1;
 }
 
+/* Responsive */
 @media (max-width: 1200px) {
     .hero-title {
         font-size: 3.5rem;
     }
+
     .hero-visual {
         display: none;
     }
@@ -203,17 +215,21 @@
     .hero-section {
         padding-top: 120px;
     }
+
     .hero-title {
         font-size: 2.8rem;
     }
+
     .hero-desc {
         font-size: 1rem;
     }
+
     .hero-stats {
         flex-direction: column;
         align-items: flex-start;
         gap: 1.5rem;
     }
+
     .stat-divider {
         display: none;
     }

@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { 
-    Plus, Trash2, Edit2, Package, Layout, CheckCircle, 
+    Plus, Trash2, Edit2, Package, CheckCircle, 
     Globe, Smartphone, BarChart, PenTool, Code, Rocket, 
-    Settings, Target, Briefcase, Zap, Shield, Mail, X
+    Settings, Target, Briefcase, Zap, Shield, Mail, X, HelpCircle,
+    Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './ServiceManager.css';
 
-// 🔹 CURATED PROFESSIONAL ICONS
+const API_BASE_URL = 'http://localhost:5000/api/services';
+
 const ICON_MAP = {
     globe: Globe,
     smartphone: Smartphone,
@@ -24,60 +28,102 @@ const ICON_MAP = {
 };
 
 const ServiceManager = () => {
+    const [services, setServices] = useState([]);
     const [serviceName, setServiceName] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedIcon, setSelectedIcon] = useState('globe'); // Default
-    const [customFields, setCustomFields] = useState([]);
-    const [services, setServices] = useState([
-        { id: 1, name: 'Web Development', description: 'Custom full-stack solutions', fieldsCount: 4, icon: 'globe' },
-        { id: 2, name: 'Mobile Apps', description: 'iOS and Android applications', fieldsCount: 2, icon: 'smartphone' }
-    ]);
+    const [selectedIcon, setSelectedIcon] = useState('globe');
+    const [editingId, setEditingId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
 
-    const addField = () => {
-        setCustomFields([...customFields, { id: Date.now(), name: '', type: 'text' }]);
+    // 🔄 Fetch services from API
+    const fetchServices = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(API_BASE_URL);
+            setServices(res.data);
+        } catch (err) {
+            toast.error('Failed to fetch services');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const removeField = (id) => {
-        setCustomFields(customFields.filter(f => f.id !== id));
-    };
+    useEffect(() => {
+        fetchServices();
+    }, []);
 
-    const updateField = (id, key, value) => {
-        setCustomFields(customFields.map(f => f.id === id ? { ...f, [key]: value } : f));
-    };
-
-    const handleAddService = (e) => {
+    const handleAddOrUpdate = async (e) => {
         e.preventDefault();
-        if (!serviceName) return;
-        const newService = {
-            id: Date.now(),
-            name: serviceName,
-            description: description,
-            fieldsCount: customFields.length,
-            icon: selectedIcon
-        };
-        setServices([newService, ...services]);
-        setServiceName('');
-        setDescription('');
-        setCustomFields([]);
-        setSelectedIcon('globe');
+        if (!serviceName || !description) {
+            toast.warning('Please fill in both title and description');
+            return;
+        }
+
+        setSubmitting(true);
+        try {
+            const data = { 
+                title: serviceName, 
+                description, 
+                icon: selectedIcon, 
+                order: services.length + 1 
+            };
+
+            if (editingId) {
+                const res = await axios.put(`${API_BASE_URL}/${editingId}`, data);
+                setServices(services.map(s => s._id === editingId ? res.data : s));
+                toast.success('Service updated successfully');
+                setEditingId(null);
+            } else {
+                const res = await axios.post(API_BASE_URL, data);
+                setServices([...services, res.data]);
+                toast.success('New service created');
+            }
+            
+            setServiceName('');
+            setDescription('');
+            setSelectedIcon('globe');
+        } catch (err) {
+            toast.error('Operation failed');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const handleEdit = (service) => {
+        setEditingId(service._id);
+        setServiceName(service.title);
+        setDescription(service.description);
+        setSelectedIcon(service.icon);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this service?')) {
+            try {
+                await axios.delete(`${API_BASE_URL}/${id}`);
+                setServices(services.filter(s => s._id !== id));
+                toast.success('Service deleted');
+            } catch (err) {
+                toast.error('Delete failed');
+            }
+        }
     };
 
     const PreviewIcon = ICON_MAP[selectedIcon] || Package;
 
     return (
-        <div className="service-manager">
-            {/* TOP SECTION: FORM & PREVIEW */}
+        <div className="service-manager-container">
             <div className="top-layout">
-                {/* LEFT: ADD SERVICE FORM */}
-                <div className="form-card card">
+                {/* LEFT: FORM CARD */}
+                <div className="form-card admin-glass-card">
                     <div className="card-header">
-                        <Plus className="icon-purple" size={24} />
-                        <h2>Add New Service</h2>
+                        <Plus className="accent-purple" size={24} />
+                        <h2>{editingId ? 'Edit Service' : 'Add New Service'}</h2>
                     </div>
-                    <form onSubmit={handleAddService}>
-                        {/* 🔹 NEW ICON SELECTOR UI */}
-                        <div className="icon-selector-container">
-                            <label>Select Service Icon</label>
+                    <form onSubmit={handleAddOrUpdate}>
+                        <div className="icon-selector">
+                            <label>Service Icon</label>
                             <div className="icon-grid">
                                 {Object.keys(ICON_MAP).map((key) => {
                                     const IconNode = ICON_MAP[key];
@@ -88,7 +134,7 @@ const ServiceManager = () => {
                                             className={`icon-choice ${selectedIcon === key ? 'active' : ''}`}
                                             onClick={() => setSelectedIcon(key)}
                                         >
-                                            <IconNode size={20} />
+                                            <IconNode size={18} />
                                         </button>
                                     );
                                 })}
@@ -96,132 +142,127 @@ const ServiceManager = () => {
                         </div>
 
                         <div className="input-group">
-                            <label>Service Name</label>
+                            <label>Service Title</label>
                             <input 
                                 type="text" 
-                                placeholder="e.g. Branding & Design" 
+                                placeholder="e.g. Graphic Design" 
                                 value={serviceName}
                                 onChange={(e) => setServiceName(e.target.value)}
                             />
                         </div>
                         <div className="input-group">
-                            <label>Description</label>
+                            <label>Service Description</label>
                             <textarea 
-                                placeholder="What is this service about?" 
+                                placeholder="Briefly describe what this service offers..." 
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                rows="3"
+                                rows="4"
                             />
                         </div>
 
-                        <div className="custom-fields-section">
-                            <div className="section-header">
-                                <h3>Custom Fields</h3>
-                                <button type="button" className="btn-add-field" onClick={addField}>
-                                    <Plus size={16} /> Add Field
-                                </button>
-                            </div>
-                            
-                            <AnimatePresence>
-                                {customFields.map((field) => (
-                                    <motion.div 
-                                        key={field.id}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        className="field-row"
-                                    >
-                                        <input 
-                                            type="text" 
-                                            placeholder="Field Name" 
-                                            value={field.name}
-                                            onChange={(e) => updateField(field.id, 'name', e.target.value)}
-                                        />
-                                        <select 
-                                            value={field.type}
-                                            onChange={(e) => updateField(field.id, 'type', e.target.value)}
-                                        >
-                                            <option value="text">Text</option>
-                                            <option value="number">Number</option>
-                                            <option value="file">File</option>
-                                            <option value="date">Date</option>
-                                        </select>
-                                        <button type="button" className="btn-remove" onClick={() => removeField(field.id)}>
-                                            <Trash2 size={16} />
-                                        </button>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
+                        <div className="form-actions">
+                            <button type="submit" className="btn-save" disabled={submitting}>
+                                {submitting ? <Loader2 className="spinner" /> : (editingId ? 'Update Service' : 'Save Service')}
+                                {!submitting && <CheckCircle size={18} />}
+                            </button>
+                            {editingId && (
+                                <button type="button" className="btn-cancel" onClick={() => {
+                                    setEditingId(null);
+                                    setServiceName('');
+                                    setDescription('');
+                                }}>Cancel</button>
+                            )}
                         </div>
-
-                        <button type="submit" className="btn-primary">
-                            Add Service <CheckCircle size={18} />
-                        </button>
                     </form>
                 </div>
 
                 {/* RIGHT: LIVE PREVIEW */}
-                <div className="preview-card card">
-                    <div className="card-header">
-                        <Layout className="icon-purple" size={24} />
-                        <h2>Service Preview</h2>
+                <div className="preview-card-column">
+                    <div className="preview-label-row">
+                        <HelpCircle size={18} />
+                        <span>Live Frontend Preview</span>
                     </div>
-                    <div className="preview-canvas">
-                        {serviceName || description || customFields.length > 0 ? (
-                            <div className="preview-content">
-                                <div className="full-preview-icon-box">
-                                    <PreviewIcon size={48} strokeWidth={1.5} className="preview-main-icon" />
-                                </div>
-                                <h1>{serviceName || 'Your Service Name'}</h1>
-                                <p className="preview-desc">{description || 'Your service description will appear here...'}</p>
-                                
-                                <div className="preview-fields-grid">
-                                    {customFields.map(field => (
-                                        <div key={field.id} className="preview-field-box">
-                                            <label>{field.name || 'Field Label'}</label>
-                                            <div className="placeholder-input">{field.type.toUpperCase()} INPUT</div>
-                                        </div>
-                                    ))}
-                                </div>
+                    
+                    <div className="frontend-style-canvas">
+                        <div className={`service-card frontend-design ${!serviceName ? 'placeholder' : ''}`}>
+                            <div className="service-glow" style={{ backgroundColor: '#9b4dff' }}></div>
+                            <div className="service-header">
+                                <PreviewIcon size={40} className="service-icon" />
+                                <div className="service-index">0{services.length + (editingId ? 0 : 1)}</div>
                             </div>
-                        ) : (
-                            <div className="preview-empty">
-                                <Package size={48} className="muted-icon" />
-                                <p>Start typing to see a live preview of your new service</p>
+                            <h3 className="service-title">{serviceName || 'Your Service Title'}</h3>
+                            <p className="service-desc">
+                                {description || 'Start typing to see how your service description will appear to your customers on the live website...'}
+                            </p>
+                            <div className="service-link">
+                                Learn More <span>&rarr;</span>
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* BOTTOM SECTION: EXISTING SERVICES */}
-            <div className="bottom-layout">
-                <div className="section-header">
-                    <h2>Existing Services</h2>
-                    <span className="count-badge">{services.length} Total</span>
+            {/* BOTTOM: ALL SERVICES LIST (GRID) */}
+            <div className="all-services-section">
+                <div className="section-header-row">
+                    <h2 className="section-title-large">All Services</h2>
+                    <span className="count-pill">{loading ? '...' : services.length} Total</span>
                 </div>
-                <div className="services-grid">
-                    {services.map(service => {
-                        const ServiceIcon = ICON_MAP[service.icon] || Package;
-                        return (
-                            <div key={service.id} className="service-item-card">
-                                <div className="service-icon-mini">
-                                    <ServiceIcon className="icon-purple" size={24} />
-                                </div>
-                                <div className="service-info">
-                                    <h3>{service.name}</h3>
-                                    <p>{service.description}</p>
-                                    <div className="field-pill">
-                                        {service.fieldsCount} Fields
+
+                <div className="dark-grid-wrapper">
+                    {loading ? (
+                        <div className="loading-state">
+                            <Loader2 className="spinner" size={40} color="white" />
+                            <p>Loading your services...</p>
+                        </div>
+                    ) : (
+                        <div className="frontend-services-grid">
+                            <AnimatePresence mode="popLayout">
+                                {services.length > 0 ? (
+                                    services.map((service, index) => {
+                                        const CardIcon = ICON_MAP[service.icon] || Package;
+                                        return (
+                                            <motion.div 
+                                                layout
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                key={service._id} 
+                                                className="service-card-wrapper"
+                                            >
+                                                <div className="service-card frontend-design admin-active">
+                                                    <div className="card-actions-top">
+                                                        <button onClick={() => handleEdit(service)} title="Edit" className="card-btn-action edit">
+                                                            <Edit2 size={14} />
+                                                        </button>
+                                                        <button onClick={() => handleDelete(service._id)} title="Delete" className="card-btn-action delete">
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="service-glow" style={{ backgroundColor: '#9b4dff' }}></div>
+                                                    <div className="service-header">
+                                                        <CardIcon size={40} className="service-icon" />
+                                                        <div className="service-index">0{index + 1}</div>
+                                                    </div>
+                                                    <h3 className="service-title">{service.title}</h3>
+                                                    <p className="service-desc">{service.description}</p>
+                                                    <div className="service-link">
+                                                        Learn More <span>&rarr;</span>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="no-services">
+                                        <Package size={40} color="#a0a0a0" />
+                                        <p>No services found. Create your first one!</p>
                                     </div>
-                                </div>
-                                <div className="service-actions">
-                                    <button className="action-btn edit"><Edit2 size={16} /></button>
-                                    <button className="action-btn delete"><Trash2 size={16} /></button>
-                                </div>
-                            </div>
-                        );
-                    })}
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
