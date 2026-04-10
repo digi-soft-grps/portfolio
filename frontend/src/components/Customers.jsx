@@ -13,10 +13,10 @@ const TestimonialCard = ({ customer, index }) => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
-            className="testimonial-card glass"
+            className="testimonial-card"
         >
-            <div className="quote-icon glass">
-                <Quote size={20} fill="var(--primary)" stroke="none" />
+            <div className="quote-icon">
+                <Quote size={20} fill="#0066ff" stroke="none" />
             </div>
             
             <div className="stars">
@@ -24,8 +24,8 @@ const TestimonialCard = ({ customer, index }) => {
                     <Star 
                         key={i} 
                         size={16} 
-                        fill={i < (customer.rating || 5) ? "var(--primary)" : "transparent"} 
-                        stroke={i < (customer.rating || 5) ? "none" : "rgba(255,255,255,0.1)"} 
+                        fill={i < (customer.rating || 5) ? "#0066ff" : "#cce0ff"} 
+                        stroke="none" 
                     />
                 ))}
             </div>
@@ -33,7 +33,7 @@ const TestimonialCard = ({ customer, index }) => {
             <p className="testimonial-text">"{customer.notes || "This client has been exceptionally satisfied with our delivery and strategy. The project was completed with top-tier quality and attention to detail."}"</p>
             
             <div className="testimonial-author">
-                <div className="author-avatar glass">
+                <div className="author-avatar">
                     {customer.avatar ? (
                         <img src={customer.avatar} alt={customer.name} className="avatar-img" />
                     ) : (
@@ -82,7 +82,7 @@ const Customers = () => {
 
                 {loading ? (
                     <div className="loading-container">
-                        <Loader2 className="spinner" size={48} color="var(--primary)" />
+                        <Loader2 className="spinner" size={48} color="#0066ff" />
                         <p>Loading testimonial reviews...</p>
                     </div>
                 ) : (
@@ -103,7 +103,7 @@ const Customers = () => {
                 <div className="clients-slider">
                     <div className="slider-track">
                         {['Google', 'Microsoft', 'Amazon', 'Adobe', 'Shopify', 'Slack'].map((client, index) => (
-                            <div key={index} className="client-logo glass">
+                            <div key={index} className="client-logo">
                                 {client}
                             </div>
                         ))}

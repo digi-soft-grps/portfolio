@@ -12,6 +12,9 @@
 
 .navbar.scrolled {
     height: 70px;
+    background: #e5f0ff;
+    box-shadow: 0 4px 20px #cce0ff;
+    border-bottom: 1px solid #cce0ff;
 }
 
 .nav-content {
@@ -25,10 +28,11 @@
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.5px;
+    color: #001433;
 }
 
 .logo-accent {
-    color: var(--primary);
+    color: #0066ff;
 }
 
 .nav-links {
@@ -39,12 +43,11 @@
 .nav-link {
     font-weight: 500;
     font-size: 0.95rem;
-    opacity: 0.8;
+    color: #002966;
 }
 
 .nav-link:hover {
-    opacity: 1;
-    color: var(--primary);
+    color: #0066ff;
 }
 
 .nav-link::after {
@@ -52,7 +55,7 @@
     display: block;
     width: 0;
     height: 2px;
-    background: var(--primary);
+    background: #0066ff;
     transition: var(--transition);
 }
 
@@ -82,6 +85,8 @@
     display: flex;
     flex-direction: column;
     z-index: 999;
+    background: #e5f0ff;
+    border-top: 1px solid #cce0ff;
 }
 
 .mobile-nav.active {

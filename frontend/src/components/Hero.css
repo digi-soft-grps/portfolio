@@ -28,29 +28,31 @@
 .glow-1 {
     top: -10vh;
     left: -10vw;
-    background: var(--primary);
+    background: #99c2ff;
 }
 
 .glow-2 {
     bottom: -10vh;
     right: -10vw;
-    background: var(--accent);
+    background: #cce0ff;
 }
 
 /* Badge */
 .badge {
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
+    padding: 0;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 2rem;
+    color: #003d99;
+    background: none;
+    border: none;
 }
 
 .badge-icon {
-    color: var(--primary);
+    color: #0066ff;
 }
 
 /* HERO TITLE (MAIN FIX) */
@@ -60,9 +62,7 @@
     font-weight: 900;
     margin-bottom: 2rem;
     max-width: 900px;
-
-    /* ✅ SINGLE COLOR (your "We" color) */
-    color: #f8e9ac;
+    color: #001433;
 }
 
 /* Remove highlight difference */
@@ -73,7 +73,7 @@
 /* Description */
 .hero-desc {
     font-size: 1.2rem;
-    color: var(--text-muted); /* ✅ FIXED (not yellow) */
+    color: #002966;
     max-width: 650px;
     margin-bottom: 3rem;
 }
@@ -99,7 +99,7 @@
 }
 
 .stat-icon {
-    color: var(--primary);
+    color: #0066ff;
 }
 
 .stat-value {
@@ -107,19 +107,19 @@
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 1.2;
-    color: var(--text-primary);
+    color: #001433;
 }
 
 .stat-label {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: #003d99;
     text-transform: uppercase;
 }
 
 .stat-divider {
     width: 1px;
     height: 40px;
-    background: var(--glass-border);
+    background: #99c2ff;
 }
 
 /* Layout */
@@ -160,13 +160,13 @@
     border-radius: 50%;
 }
 
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
+.red { background: #66a3ff; }
+.yellow { background: #3385ff; }
+.green { background: #0066ff; }
 
 .mockup-row {
     height: 15px;
-    background: var(--glass-border);
+    background: #99c2ff;
     border-radius: 10px;
     margin-bottom: 1.2rem;
 }
@@ -184,7 +184,7 @@
 
 .mockup-item {
     height: 80px;
-    background: var(--glass-border);
+    background: #99c2ff;
     border-radius: 10px;
 }
 
@@ -195,8 +195,7 @@
     height: 120%;
     top: -10%;
     left: -10%;
-    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-    opacity: 0.1;
+    background: radial-gradient(circle, #99c2ff 0%, #e5f0ff 70%);
     z-index: 1;
 }
 

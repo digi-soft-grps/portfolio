@@ -104,7 +104,7 @@ const ServiceDetail = () => {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="sidebar-cta glass">
+                            <div className="sidebar-cta">
                                 <h4>Ready to start?</h4>
                                 <p>Get a custom quote for your project today.</p>
                                 <button className="btn btn-primary full-width">Contact Us Now</button>
@@ -118,8 +118,8 @@ const ServiceDetail = () => {
                                 {detail.plans.map((plan, i) => (
                                     <motion.div 
                                         key={i} 
-                                        className="plan-card glass"
-                                        whileHover={{ scale: 1.02, borderColor: 'var(--primary)' }}
+                                        className="plan-card"
+                                        whileHover={{ scale: 1.02, borderColor: '#0066ff' }}
                                     >
                                         <div className="plan-header">
                                             <h4 className="plan-name">{plan.name}</h4>

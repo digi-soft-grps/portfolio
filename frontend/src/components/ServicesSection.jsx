@@ -32,9 +32,9 @@ const ServiceCard = ({ service, index }) => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
             whileHover={{ y: -10 }}
-            className="service-card glass"
+            className="service-card"
         >
-            <div className="service-glow" style={{ backgroundColor: '#9b4dff' }}></div>
+            <div className="service-glow" style={{ backgroundColor: '#3385ff' }}></div>
             <div className="service-header">
                 <IconComponent size={40} className="service-icon" />
                 <div className="service-index">{formattedIndex}</div>
@@ -82,7 +82,7 @@ const ServicesSection = () => {
                 
                 {loading ? (
                     <div className="loading-container">
-                        <Loader2 className="spinner" size={48} color="#9b4dff" />
+                        <Loader2 className="spinner" size={48} color="#0066ff" />
                         <p>Loading our expertise...</p>
                     </div>
                 ) : (

@@ -16,36 +16,35 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background: #121212;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: #e5f0ff;
+    border: 1px solid #99c2ff;
     max-width: 420px;
     width: 100%;
     margin: 0 auto;
     min-height: 280px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: visible;
+    box-shadow: 0 10px 30px #cce0ff;
 }
 
 .testimonial-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(168, 85, 247, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border-color: #0066ff;
+    box-shadow: 0 20px 40px #99c2ff;
 }
 
 .quote-icon {
     position: absolute;
-    top: -20px;
-    right: 2rem;
-    width: 45px;
-    height: 45px;
-    background: #1a1a1a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
+    top: 0;
+    right: 2.5rem;
+    color: #0066ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     z-index: 5;
+    background: none;
+    border: none;
+    box-shadow: none;
 }
 
 .stars {
@@ -57,11 +56,10 @@
 .testimonial-text {
     font-size: 1.1rem;
     font-style: italic;
-    color: #ffffff;
+    color: #001433;
     line-height: 1.7;
     margin-bottom: 2rem;
     flex-grow: 1;
-    opacity: 0.9;
 }
 
 .testimonial-author {
@@ -71,15 +69,14 @@
 }
 
 .author-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--primary);
+    font-size: 1.5rem;
+    color: #0066ff;
+    background: none;
+    padding: 0;
 }
 
 .author-info {
@@ -90,11 +87,12 @@
 .author-name {
     font-size: 1.1rem;
     font-weight: 700;
+    color: #001433;
 }
 
 .author-role {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: #003d99;
 }
 
 /* Client Logo Slider */
@@ -121,13 +119,11 @@
     border-radius: 50px;
     font-weight: 800;
     font-size: 1.2rem;
-    opacity: 0.5;
+    color: #002966;
     transition: var(--transition);
     white-space: nowrap;
 }
 
 .client-logo:hover {
-    opacity: 1;
-    border-color: var(--primary);
-    color: var(--primary);
+    color: #0066ff;
 }

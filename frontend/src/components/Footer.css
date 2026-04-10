@@ -1,7 +1,7 @@
 .footer-container {
-    background: #050507;
+    background: #000e24;
     padding: 100px 0 30px;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid #001433;
 }
 
 .footer-grid {
@@ -11,40 +11,31 @@
     margin-bottom: 5rem;
 }
 
+.footer-brand .logo-text {
+    color: #e5f0ff;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.footer-brand .logo-accent {
+    color: #0066ff;
+}
+
 .brand-desc {
-    color: var(--text-muted);
+    color: #99c2ff;
     font-size: 0.95rem;
     line-height: 1.7;
     margin: 1.5rem 0 2rem;
     max-width: 350px;
 }
 
-.social-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.social-link {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.social-link:hover {
-    color: var(--primary);
-    border-color: var(--primary);
-    transform: translateY(-3px);
-}
+/* Social links are now handled by SocialLinks component */
 
 .footer-title {
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 2rem;
-    color: var(--text-main);
+    color: #e5f0ff;
 }
 
 .footer-links {
@@ -54,12 +45,12 @@
 }
 
 .footer-links a {
-    color: var(--text-muted);
+    color: #99c2ff;
     font-size: 0.95rem;
 }
 
 .footer-links a:hover {
-    color: var(--primary);
+    color: #0066ff;
     padding-left: 5px;
 }
 
@@ -73,25 +64,25 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: var(--text-muted);
+    color: #99c2ff;
     font-size: 0.95rem;
 }
 
 .contact-icon {
-    color: var(--primary);
+    color: #0066ff;
     flex-shrink: 0;
 }
 
 .footer-bottom {
     padding-top: 2rem;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid #001433;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .copyright {
-    color: var(--text-muted);
+    color: #3385ff;
     font-size: 0.9rem;
 }
 
@@ -101,12 +92,12 @@
 }
 
 .legal-links a {
-    color: var(--text-muted);
+    color: #3385ff;
     font-size: 0.9rem;
 }
 
 .legal-links a:hover {
-    color: var(--text-main);
+    color: #e5f0ff;
 }
 
 @media (max-width: 1200px) {

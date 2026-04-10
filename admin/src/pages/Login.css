@@ -5,19 +5,20 @@
   justify-content: center;
   min-height: 100vh;
   width: 100vw;
-  background-color: #f8fafc;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #e5f0ff;
+  font-family: 'Outfit', sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .login-card {
-  background: #ffffff;
+  background: #e5f0ff;
   border-radius: 24px;
   padding: 48px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid #cce0ff;
+  box-shadow: 0 10px 25px #cce0ff;
 }
 
 .login-header {
@@ -29,7 +30,7 @@
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  background: #f1f5f9;
+  background: #cce0ff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,19 +38,19 @@
 }
 
 .logo-text {
-  color: #0f172a;
+  color: #0066ff;
   font-weight: 800;
   font-size: 24px;
 }
 
 .login-header h2 {
-  color: #0f172a;
+  color: #001433;
   font-size: 28px;
   font-weight: 700;
 }
 
 .login-header p {
-  color: #64748b;
+  color: #003d99;
   font-size: 15px;
 }
 
@@ -66,7 +67,7 @@
 }
 
 .input-group label {
-  color: #0f172a;
+  color: #001433;
   font-size: 14px;
   font-weight: 600;
 }
@@ -84,7 +85,7 @@
   left: 16px;
   top: 50%;
   transform: translateY(-50%) !important;
-  color: #94a3b8;
+  color: #003d99;
   pointer-events: none;
   z-index: 10;
   display: block; /* No inline collapse */
@@ -94,11 +95,11 @@
 .input-wrapper input {
   width: 100%;
   height: 52px; /* Fixed height is key */
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #e5f0ff;
+  border: 1px solid #cce0ff;
   border-radius: 12px;
   padding: 0 44px 0 52px !important; /* Heavy side gutters: Left 52px, Right 44px */
-  color: #0f172a;
+  color: #001433;
   font-size: 15px;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -108,8 +109,8 @@
 }
 
 .input-wrapper input:focus {
-  border-color: #0f172a;
-  background: #ffffff;
+  border-color: #0066ff;
+  background: #e5f0ff;
 }
 
 /* Same centering logic for eye icon */
@@ -120,7 +121,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #94a3b8;
+  color: #003d99;
   cursor: pointer;
   padding: 0;
   display: flex;
@@ -130,14 +131,13 @@
 }
 
 .login-button {
-  background: #0f172a;
-  color: white;
+  background: #0066ff;
+  color: #e5f0ff;
   border: none;
   border-radius: 12px;
   padding: 16px;
   font-size: 16px;
   font-weight: 600;
-  color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -146,15 +146,15 @@
 }
 
 .login-button:hover {
-  background: #1e293b;
+  background: #001433;
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid #cce0ff;
   border-radius: 50%;
-  border-top-color: #ffffff;
+  border-top-color: #0066ff;
   animation: spin 0.8s linear infinite;
 }
 

@@ -24,11 +24,11 @@
 
 /* 🔹 ADMIN FORM CARD */
 .admin-glass-card {
-    background: white;
+    background: #e5f0ff;
     padding: 32px;
     border-radius: 20px;
-    box-shadow: 0 4px 20px -10px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 20px #cce0ff;
+    border: 1px solid #99c2ff;
 }
 
 .card-header {
@@ -42,7 +42,7 @@
     font-size: 20px;
     font-weight: 800;
     margin: 0;
-    color: #0f172a;
+    color: #001433;
 }
 
 .accent-purple {
@@ -57,7 +57,7 @@
     display: block;
     font-size: 13px;
     font-weight: 700;
-    color: #64748b;
+    color: #003d99;
     margin-bottom: 8px;
 }
 
@@ -66,8 +66,8 @@
     width: 100%;
     padding: 13px 16px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    background: #f8fafc;
+    border: 1px solid #99c2ff;
+    background: #e5f0ff;
     font-size: 15px;
     transition: all 0.2s ease;
     box-sizing: border-box;
@@ -81,7 +81,7 @@
     display: block;
     font-size: 13px;
     font-weight: 700;
-    color: #64748b;
+    color: #003d99;
     margin-bottom: 12px;
 }
 
@@ -97,17 +97,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    background: #f1f5f9;
-    color: #64748b;
+    background: none;
+    color: #003d99;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .icon-choice:hover, .icon-choice.active {
-    background: var(--primary);
-    color: white;
+    color: #0066ff;
+    transform: scale(1.15);
 }
 
 .form-actions {
@@ -119,8 +118,8 @@
     flex: 1;
     padding: 14px;
     border-radius: 12px;
-    background: #0f172a;
-    color: white;
+    background: #0066ff;
+    color: #e5f0ff;
     border: none;
     font-size: 15px;
     font-weight: 700;
@@ -138,8 +137,8 @@
 
 .btn-cancel {
     padding: 14px 20px;
-    background: #f1f5f9;
-    color: #64748b;
+    background: #cce0ff;
+    color: #003d99;
     border-radius: 12px;
     font-weight: 700;
 }
@@ -158,7 +157,7 @@
 
 /* 🔹 DARK GRID WRAPPER (MAKES GLASS CARDS POP) */
 .dark-grid-wrapper {
-    background: var(--bg-dark);
+    background: #000e24;
     padding: 64px 48px;
     border-radius: 32px;
     margin-top: 48px;
@@ -166,19 +165,19 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    box-shadow: 0 15px 50px -15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 50px #cce0ff;
 }
 
 .section-title-large {
     font-size: 28px;
     font-weight: 800;
-    color: #0f172a;
+    color: #001433;
     margin: 0;
 }
 
 .count-pill {
     padding: 8px 16px;
-    background: #f1f5f9;
+    background: #cce0ff;
     border-radius: 100px;
     font-size: 13px;
     font-weight: 800;
@@ -208,9 +207,8 @@
 
 /* 🔹 THE SERVICE CARD (IDENTICAL TO FRONTEND) */
 .service-card.frontend-design {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #e5f0ff;
+    border: 1px solid #99c2ff;
     padding: 2.5rem;
     border-radius: 24px;
     position: relative;
@@ -223,8 +221,8 @@
 
 .service-card.frontend-design:hover {
     transform: translateY(-10px);
-    border-color: var(--primary);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: #0066ff;
+    box-shadow: 0 20px 40px #cce0ff;
 }
 
 .service-glow {
@@ -247,15 +245,14 @@
 .service-index {
     font-size: 1.2rem;
     font-weight: 800;
-    opacity: 0.2;
-    color: white;
+    color: #cce0ff;
 }
 
 .service-title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: white;
+    color: #001433;
 }
 
 .service-desc {
@@ -294,19 +291,17 @@
 .card-btn-action {
     width: 34px;
     height: 34px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #001433;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    backdrop-filter: blur(8px);
+    background: none;
+    border: none;
 }
 
-.card-btn-action.edit:hover { background: var(--primary); }
-.card-btn-action.delete:hover { background: #ef4444; }
+.card-btn-action.edit:hover { background: #0066ff; }
+.card-btn-action.delete:hover { background: #002966; }
 
 /* 🔹 LOADING & EMPTY STATES */
 .loading-state, .no-services {
