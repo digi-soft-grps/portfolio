@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Star, Quote, Loader2 } from 'lucide-react';
 import './Customers.css';
 
-const API_URL = 'http://localhost:5000/api/customers';
+const API = import.meta.env.VITE_API_URL;
+const API_URL = `${API}/api/customers`;
 
 const TestimonialCard = ({ customer, index }) => {
     return (

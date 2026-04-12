@@ -55,7 +55,8 @@ const ServicesSection = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/services');
+                const API = import.meta.env.VITE_API_URL;
+                const response = await fetch(`${API}/api/services`);
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setServices(data);
