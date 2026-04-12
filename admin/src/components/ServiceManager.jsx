@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './ServiceManager.css';
 
 const API = import.meta.env.VITE_API_URL || '';
-const API_BASE_URL = `${API.replace(/\\/$/, '')}/api/services`;
+const API_BASE_URL = `${API.endsWith('/') ? API.slice(0, -1) : API}/api/services`;
 
 const ICON_MAP = {
     globe: Globe,
