@@ -14,7 +14,14 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: [process.env.CLIENT_URL, process.env.ADMIN_URL],
+  origin: [
+    "https://portfolio-git-main-digisofts-projects-f9ffcae3.vercel.app",
+    "https://portfolio-admindz.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    process.env.CLIENT_URL,
+    process.env.ADMIN_URL
+  ].filter(Boolean),
   credentials: true
 }));
 
