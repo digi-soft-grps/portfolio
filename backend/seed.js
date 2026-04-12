@@ -13,6 +13,12 @@ const seedAdmin = async () => {
 
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
+    const setValue = process.env.SET_VALUE;
+
+    if (setValue !== 'true') {
+      console.error('Error: SET_VALUE is not true in your .env file. Seed script execution blocked.');
+      process.exit(1);
+    }
 
     if (!adminEmail || !adminPassword) {
       console.error('Error: ADMIN_EMAIL and ADMIN_PASSWORD must be provided in .env');
@@ -22,14 +28,16 @@ const seedAdmin = async () => {
     // Check if admin already exists
     const existingAdmin = await Admin.findOne({ email: adminEmail });
     
-    if (existingAdmin) {
-      console.log(`Admin account for ${adminEmail} already exists. No new seed required.`);
-      process.exit(0);
-    }
-
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(adminPassword, salt);
+
+    if (existingAdmin) {
+      existingAdmin.password = hashedPassword;
+      await existingAdmin.save();
+      console.log(`Admin account credentials for ${adminEmail} updated successfully.`);
+      process.exit(0);
+    }
 
     // Create the admin user
     const newAdmin = new Admin({

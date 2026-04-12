@@ -34,6 +34,13 @@ app.get('/', (req, res) => {
   res.send('Dual Dreams Portfolio Backend API is Running');
 });
 
+// API Status Endpoint
+app.get("/api", (req, res) => {
+  res.json({
+    message: "API is working 🚀"
+  });
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
