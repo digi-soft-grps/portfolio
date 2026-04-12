@@ -10,7 +10,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import './ServiceManager.css';
 
-const API_BASE_URL = 'http://localhost:5000/api/services';
+const API = import.meta.env.VITE_API_URL;
+const API_BASE_URL = `${API}/api/services`;
 
 const ICON_MAP = {
     globe: Globe,

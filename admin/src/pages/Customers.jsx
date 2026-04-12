@@ -23,7 +23,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import './Customers.css';
 
-const API_BASE_URL = 'http://localhost:5000/api/customers';
+const API = import.meta.env.VITE_API_URL;
+const API_BASE_URL = `${API}/api/customers`;
 
 const Customers = () => {
     // Form State
