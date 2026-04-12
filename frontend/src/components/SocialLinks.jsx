@@ -49,9 +49,7 @@ const socialData = [
     { id: 'instagram', name: 'Instagram', icon: Icons.Instagram, path: '#' },
     { id: 'youtube', name: 'YouTube', icon: Icons.Youtube, path: '#' },
     { id: 'linkedin', name: 'LinkedIn', icon: Icons.Linkedin, path: '#' },
-    { id: 'x', name: 'X', icon: Icons.X, path: '#' },
-    { id: 'whatsapp', name: 'WhatsApp', icon: Icons.Whatsapp, path: '#' },
-    { id: 'facebook', name: 'Facebook', icon: Icons.Facebook, path: '#' }
+    { id: 'whatsapp', name: 'WhatsApp', icon: Icons.Whatsapp, path: '#' }
 ];
 
 const SocialLinks = () => {

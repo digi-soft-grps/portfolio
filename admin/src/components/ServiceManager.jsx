@@ -10,8 +10,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import './ServiceManager.css';
 
-const API = import.meta.env.VITE_API_URL;
-const API_BASE_URL = `${API}/api/services`;
+const API = import.meta.env.VITE_API_URL || '';
+const API_BASE_URL = `${API.replace(/\\/$/, '')}/api/services`;
 
 const ICON_MAP = {
     globe: Globe,
@@ -44,7 +44,8 @@ const ServiceManager = () => {
             const res = await axios.get(API_BASE_URL);
             setServices(res.data);
         } catch (err) {
-            toast.error('Failed to fetch services');
+            console.error('Fetch error:', err);
+            toast.error('Failed to fetch services. Check console.');
         } finally {
             setLoading(false);
         }
@@ -85,7 +86,8 @@ const ServiceManager = () => {
             setDescription('');
             setSelectedIcon('globe');
         } catch (err) {
-            toast.error('Operation failed');
+            console.error('Error saving service:', err);
+            toast.error(err.response?.data?.error || 'Operation failed. Check console.');
         } finally {
             setSubmitting(false);
         }
@@ -106,7 +108,8 @@ const ServiceManager = () => {
                 setServices(services.filter(s => s._id !== id));
                 toast.success('Service deleted');
             } catch (err) {
-                toast.error('Delete failed');
+                console.error('Delete error:', err);
+                toast.error('Delete failed. Check console.');
             }
         }
     };

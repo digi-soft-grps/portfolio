@@ -40,8 +40,7 @@ const Footer = () => {
                             <span className="logo-text">DUAL <span className="logo-accent">DREAMS</span></span>
                         </Link>
                         <p className="brand-desc">
-                            We build digital products that combine creativity and technology 
-                            to help businesses grow and thrive in a digital-first world.
+                            Where your dreams grow digital
                         </p>
                         <SocialLinks />
                     </div>
