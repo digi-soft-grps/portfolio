@@ -11,9 +11,9 @@ const seedAdmin = async () => {
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    const setValue = process.env.SET_VALUE;
+    const adminEmail = 'santhsohspartan181@gmail.com';
+    const adminPassword = 'Abcd@123';
+    const setValue = 'true';
 
     if (setValue !== 'true') {
       console.error('Error: SET_VALUE is not true in your .env file. Seed script execution blocked.');

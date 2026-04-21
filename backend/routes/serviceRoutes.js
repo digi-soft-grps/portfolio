@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
 // Create New Service
 router.post('/', async (req, res) => {
     try {
-        const { title, description, icon, order } = req.body;
-        const newService = new Service({ title, description, icon, order });
+        const { title, description, image, order } = req.body;
+        const newService = new Service({ title, description, image, order });
         await newService.save();
         res.status(201).json(newService);
     } catch (err) {
@@ -28,10 +28,10 @@ router.post('/', async (req, res) => {
 // Update Existing Service
 router.put('/:id', async (req, res) => {
     try {
-        const { title, description, icon, order } = req.body;
+        const { title, description, image, order } = req.body;
         const updatedService = await Service.findByIdAndUpdate(
             req.params.id, 
-            { title, description, icon, order }, 
+            { title, description, image, order }, 
             { new: true }
         );
         res.json(updatedService);

@@ -21,9 +21,8 @@ import {
   Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import './Customers.css';
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const API_BASE_URL = `${API}/api/customers`;
 
 const Customers = () => {
@@ -43,6 +42,7 @@ const Customers = () => {
 
     // Existing Customers State
     const [customers, setCustomers] = useState([]);
+    const [editingId, setEditingId] = useState(null);
 
     // 🔄 Fetch customers
     const fetchCustomers = async () => {
@@ -83,6 +83,10 @@ const Customers = () => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+                toast.warning('Image size should be less than 2MB');
+                return;
+            }
             const reader = new FileReader();
             reader.onloadend = () => {
                 setFormData(prev => ({ ...prev, avatar: reader.result }));
@@ -105,20 +109,42 @@ const Customers = () => {
                 customFields: customFields.map(({ label, value }) => ({ label, value }))
             };
 
-            const res = await axios.post(API_BASE_URL, dataToSave);
-            setCustomers([res.data, ...customers]);
-            toast.success('Customer added successfully');
+            if (editingId) {
+                const res = await axios.put(`${API_BASE_URL}/${editingId}`, dataToSave);
+                setCustomers(customers.map(c => c._id === editingId ? res.data : c));
+                toast.success('Customer updated successfully');
+            } else {
+                const res = await axios.post(API_BASE_URL, dataToSave);
+                setCustomers([res.data, ...customers]);
+                toast.success('Customer added successfully');
+            }
             
-            // Reset Form (Keeping avatar/rating logic clean)
+            // Reset Form
+            setEditingId(null);
             setFormData({
                 name: '', email: '', phone: '', company: '', notes: '', avatar: null, rating: 5
             });
             setCustomFields([]);
         } catch (err) {
-            toast.error('Failed to save customer');
+            toast.error(editingId ? 'Failed to update customer' : 'Failed to save customer');
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const handleEdit = (customer) => {
+        setEditingId(customer._id);
+        setFormData({
+            name: customer.name || '',
+            email: customer.email || '',
+            phone: customer.phone || '',
+            company: customer.company || '',
+            notes: customer.notes || '',
+            avatar: customer.avatar || null,
+            rating: customer.rating || 5
+        });
+        setCustomFields(customer.customFields ? customer.customFields.map((f, i) => ({ ...f, id: i })) : []);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const deleteCustomer = async (id) => {
@@ -134,324 +160,376 @@ const Customers = () => {
     };
 
     return (
-        <div className="customers-view">
-            <div className="split-layout">
+        <div className="flex flex-col gap-8 md:gap-12">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 md:gap-12 items-start">
                 {/* 🟦 LEFT SIDE: ADD CUSTOMER FORM */}
-                <div className="column form-column">
-                    <div className="glass-card">
-                        <div className="card-header">
-                            <div className="header-icon-box">
-                                <UserPlus size={22} />
+                <div className="bg-white p-6 md:p-10 rounded-[2.5rem] border border-persian-blue-100 shadow-xl shadow-persian-blue-100/20">
+                    <div className="flex items-center gap-4 mb-8 md:mb-10">
+                        <div className="p-3 bg-persian-blue-100 rounded-2xl text-persian-blue-600">
+                            <UserPlus size={22} />
+                        </div>
+                        <h2 className="text-2xl font-bold text-persian-blue-950">Add New Customer</h2>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6 md:gap-8">
+                        {/* Profile Image Section */}
+                        <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-persian-blue-50/50 rounded-3xl border border-persian-blue-100">
+                            <div className="relative group">
+                                <div className="w-20 h-20 rounded-2xl bg-white border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-300">
+                                    {formData.avatar ? (
+                                        <img src={formData.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <User size={32} />
+                                    )}
+                                </div>
+                                <label htmlFor="avatar-input" className="absolute inset-0 bg-persian-blue-600/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer rounded-2xl text-white">
+                                    <Camera size={20} />
+                                    <input 
+                                        type="file" 
+                                        id="avatar-input" 
+                                        accept="image/*" 
+                                        onChange={handleImageUpload} 
+                                        className="hidden"
+                                    />
+                                </label>
                             </div>
-                            <h2>Add New Customer</h2>
+                            <div className="flex flex-col text-center sm:text-left">
+                                <span className="font-bold text-persian-blue-900">Profile Picture</span>
+                                <p className="text-sm text-persian-blue-500">Recommended: Square 200x200</p>
+                            </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="customer-form">
-                            {/* Profile Image Section */}
-                            <div className="avatar-upload-section">
-                                <div className="avatar-preview-box">
-                                    {formData.avatar ? (
-                                        <img src={formData.avatar} alt="Avatar" className="uploaded-img" />
-                                    ) : (
-                                        <User size={32} className="placeholder-icon" />
-                                    )}
-                                    <label htmlFor="avatar-input" className="upload-overlay">
-                                        <Camera size={18} />
-                                        <input 
-                                            type="file" 
-                                            id="avatar-input" 
-                                            accept="image/*" 
-                                            onChange={handleImageUpload} 
-                                            style={{ display: 'none' }} 
-                                        />
-                                    </label>
-                                </div>
-                                <div className="avatar-info">
-                                    <span>Profile Picture</span>
-                                    <p>Recommended: Square 200x200</p>
-                                </div>
-                            </div>
-
-                            <div className="form-grid">
-                                <div className="input-field">
-                                    <label>Customer Name</label>
-                                    <div className="input-wrapper">
-                                        <User size={18} className="field-icon" />
-                                        <input 
-                                            type="text" 
-                                            name="name"
-                                            placeholder="e.g. Alexander Pierce"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="input-field">
-                                    <label>Email Address</label>
-                                    <div className="input-wrapper">
-                                        <Mail size={18} className="field-icon" />
-                                        <input 
-                                            type="email" 
-                                            name="email"
-                                            placeholder="alexander@example.com"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="input-field">
-                                    <label>Phone Number</label>
-                                    <div className="input-wrapper">
-                                        <Phone size={18} className="field-icon" />
-                                        <input 
-                                            type="tel" 
-                                            name="phone"
-                                            placeholder="+1 (555) 000-0000"
-                                            value={formData.phone}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="input-field">
-                                    <label>Company Name</label>
-                                    <div className="input-wrapper">
-                                        <Briefcase size={18} className="field-icon" />
-                                        <input 
-                                            type="text" 
-                                            name="company"
-                                            placeholder="Acme Corp"
-                                            value={formData.company}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="input-field full-width">
-                                <label>Notes / Description</label>
-                                <div className="input-wrapper area">
-                                    <FileText size={18} className="field-icon" />
-                                    <textarea 
-                                        name="notes"
-                                        placeholder="Add any specific requirements or background information here..."
-                                        rows="4"
-                                        value={formData.notes}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-persian-blue-900 ml-1">Customer Name</label>
+                                <div className="relative group">
+                                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-persian-blue-300 group-focus-within:text-persian-blue-600 transition-colors" />
+                                    <input 
+                                        type="text" 
+                                        name="name"
+                                        placeholder="e.g. Alexander Pierce"
+                                        className="admin-input pl-12"
+                                        value={formData.name}
                                         onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
 
-                            {/* Custom Fields Section */}
-                            <div className="custom-fields-area">
-                                <div className="section-title">
-                                    <h3>Custom Fields</h3>
-                                    <button type="button" className="text-btn" onClick={addCustomField}>
-                                        <Plus size={16} /> Add Field
-                                    </button>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-persian-blue-900 ml-1">Email Address</label>
+                                <div className="relative group">
+                                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-persian-blue-300 group-focus-within:text-persian-blue-600 transition-colors" />
+                                    <input 
+                                        type="email" 
+                                        name="email"
+                                        placeholder="alexander@example.com"
+                                        className="admin-input pl-12"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                    />
                                 </div>
-                                <AnimatePresence>
-                                    {customFields.map(field => (
-                                        <motion.div 
-                                            key={field.id}
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: 'auto' }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            className="custom-field-row"
-                                        >
-                                            <input 
-                                                type="text" 
-                                                placeholder="Label" 
-                                                value={field.label}
-                                                onChange={(e) => updateCustomField(field.id, 'label', e.target.value)}
-                                            />
-                                            <input 
-                                                type="text" 
-                                                placeholder="Value" 
-                                                value={field.value}
-                                                onChange={(e) => updateCustomField(field.id, 'value', e.target.value)}
-                                            />
-                                            <button type="button" className="remove-btn" onClick={() => removeCustomField(field.id)}>
-                                                <X size={16} />
-                                            </button>
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
                             </div>
 
-                            <button 
-                                type="submit" 
-                                className={`submit-btn ${isSubmitting ? 'loading' : ''}`}
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Saving...' : <>Save Customer <CheckCircle size={18} /></>}
-                            </button>
-                        </form>
-                    </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-persian-blue-900 ml-1">Phone Number</label>
+                                <div className="relative group">
+                                    <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-persian-blue-300 group-focus-within:text-persian-blue-600 transition-colors" />
+                                    <input 
+                                        type="tel" 
+                                        name="phone"
+                                        placeholder="+1 (555) 000-0000"
+                                        className="admin-input pl-12"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-bold text-persian-blue-900 ml-1">Company Name</label>
+                                <div className="relative group">
+                                    <Briefcase size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-persian-blue-300 group-focus-within:text-persian-blue-600 transition-colors" />
+                                    <input 
+                                        type="text" 
+                                        name="company"
+                                        placeholder="Acme Corp"
+                                        className="admin-input pl-12"
+                                        value={formData.company}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-bold text-persian-blue-900 ml-1">Notes / Description</label>
+                            <div className="relative group">
+                                <FileText size={18} className="absolute left-4 top-4 text-persian-blue-300 group-focus-within:text-persian-blue-600 transition-colors" />
+                                <textarea 
+                                    name="notes"
+                                    placeholder="Add any specific requirements or background information here..."
+                                    className="admin-input pl-12 resize-none"
+                                    rows="4"
+                                    value={formData.notes}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Custom Fields Section */}
+                        <div className="flex flex-col gap-5 p-6 bg-persian-blue-50/50 rounded-3xl border border-persian-blue-100">
+                            <div className="flex items-center justify-between px-1">
+                                <h3 className="font-bold text-persian-blue-900">Custom Fields</h3>
+                                <button type="button" className="text-sm font-bold text-persian-blue-600 flex items-center gap-1 hover:text-persian-blue-800 transition-colors" onClick={addCustomField}>
+                                    <Plus size={16} /> Add Field
+                                </button>
+                            </div>
+                            <AnimatePresence>
+                                {customFields.map(field => (
+                                    <motion.div 
+                                        key={field.id}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                        className="flex gap-3"
+                                    >
+                                        <input 
+                                            type="text" 
+                                            placeholder="Label" 
+                                            className="grow bg-white border border-persian-blue-100 rounded-xl px-4 py-2.5 text-sm font-medium focus:border-persian-blue-500 focus:outline-none transition-all"
+                                            value={field.label}
+                                            onChange={(e) => updateCustomField(field.id, 'label', e.target.value)}
+                                        />
+                                        <input 
+                                            type="text" 
+                                            placeholder="Value" 
+                                            className="grow bg-white border border-persian-blue-100 rounded-xl px-4 py-1.5 text-sm font-medium focus:border-persian-blue-500 focus:outline-none transition-all"
+                                            value={field.value}
+                                            onChange={(e) => updateCustomField(field.id, 'value', e.target.value)}
+                                        />
+                                        <button type="button" className="p-2 text-persian-blue-300 hover:text-red-500 transition-colors" onClick={() => removeCustomField(field.id)}>
+                                            <X size={18} />
+                                        </button>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            className="admin-btn admin-btn-primary w-full text-lg h-14"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? (
+                                <Loader2 className="animate-spin" size={20} />
+                            ) : (
+                                <>Save Customer <CheckCircle size={20} /></>
+                            )}
+                        </button>
+                    </form>
                 </div>
 
                 {/* 🟦 RIGHT SIDE: CUSTOMER PREVIEW */}
-                <div className="column preview-column">
-                    <div className="glass-card preview-card">
-                        <div className="card-header">
-                            <div className="header-icon-box orange">
+                <div className="hidden xl:flex flex-col gap-8 sticky top-8">
+                    <div className="bg-white p-6 md:p-10 rounded-[2.5rem] border border-orange-100 shadow-xl shadow-orange-100/20 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100/50 blur-3xl -mr-16 -mt-16 rounded-full"></div>
+                        <div className="flex items-center gap-4 mb-8 relative z-10">
+                            <div className="p-3 bg-orange-100 rounded-2xl text-orange-600">
                                 <HelpCircle size={22} />
                             </div>
-                            <h2>Customer Preview</h2>
+                            <h2 className="text-2xl font-bold text-persian-blue-950">Customer Preview</h2>
                         </div>
 
-                        <div className="preview-content">
+                        <div className="relative z-10 flex items-center justify-center">
                             {formData.name || formData.email || formData.phone || formData.company || formData.notes ? (
-                                <div className="live-data">
-                                    <div className="main-info">
-                                        <div className="preview-avatar">
-                                            {formData.avatar ? (
-                                                <img src={formData.avatar} alt="Preview" />
-                                            ) : (
-                                                <User size={48} />
-                                            )}
-                                        </div>
-                                        <div className="main-text">
-                                            <h3>{formData.name || 'New Customer'}</h3>
-                                            <p className="company-tag">{formData.company || 'No Company Added'}</p>
-                                        </div>
+                                <div className="w-full bg-persian-blue-50/50 border border-persian-blue-100 rounded-4xl p-6 md:p-8 text-persian-blue-900 shadow-xl relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 p-8 text-persian-blue-200/20">
+                                        <Quote size={80} fill="currentColor" />
                                     </div>
-
-                                    <div className="details-grid">
-                                        <div className="detail-item">
-                                            <label>Email</label>
-                                            <span>{formData.email || '—'}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <label>Phone</label>
-                                            <span>{formData.phone || '—'}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="preview-notes">
-                                        <label>Notes</label>
-                                        <p>{formData.notes || 'No notes added yet...'}</p>
-                                    </div>
-
-                                    {customFields.length > 0 && (
-                                        <div className="preview-custom-section">
-                                            <label>Additional Information</label>
-                                            <div className="custom-tags">
-                                                {customFields.map(field => (
-                                                    field.label && (
-                                                        <div key={field.id} className="custom-tag">
-                                                            <strong>{field.label}:</strong> {field.value || 'N/A'}
-                                                        </div>
-                                                    )
-                                                ))}
+                                    <div className="relative z-20">
+                                        <div className="flex items-center gap-5 mb-8">
+                                            <div className="w-16 h-16 rounded-2xl bg-white border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-300 shadow-sm">
+                                                {formData.avatar ? (
+                                                    <img src={formData.avatar} alt="Preview" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <User size={32} />
+                                                )}
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className="text-xl font-bold">{formData.name || 'New Customer'}</h3>
+                                                <p className="text-persian-blue-600 font-bold uppercase tracking-widest text-[10px] px-2.5 py-1 bg-persian-blue-100 rounded-full border border-persian-blue-200/50 w-fit mt-1.5">{formData.company || 'No Company Added'}</p>
                                             </div>
                                         </div>
-                                    )}
-                                    
-                                    <div className="status-badge">
-                                        <div className="dot animate"></div>
-                                        Live Editing Mode
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                                            <div className="flex flex-col gap-1.5">
+                                                <label className="text-[10px] font-bold uppercase tracking-widest text-persian-blue-400">Email</label>
+                                                <span className="text-sm font-medium truncate">{formData.email || '—'}</span>
+                                            </div>
+                                            <div className="flex flex-col gap-1.5">
+                                                <label className="text-[10px] font-bold uppercase tracking-widest text-persian-blue-400">Phone</label>
+                                                <span className="text-sm font-medium">{formData.phone || '—'}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-2 mb-8 p-5 bg-white rounded-2xl border border-persian-blue-100 shadow-sm">
+                                            <label className="text-[10px] font-bold uppercase tracking-widest text-persian-blue-400">Notes / About</label>
+                                            <p className="text-sm leading-relaxed italic text-persian-blue-600">"{formData.notes || 'Start typing to see the auto-preview...'}"</p>
+                                        </div>
+
+                                        {customFields.length > 0 && (
+                                            <div className="flex flex-col gap-3">
+                                                <label className="text-[10px] font-bold uppercase tracking-widest text-persian-blue-400">Metrics</label>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {customFields.map(field => (
+                                                        field.label && (
+                                                            <div key={field.id} className="text-[11px] bg-white border border-persian-blue-100 px-3 py-1.5 rounded-xl flex gap-2 shadow-sm">
+                                                                <span className="text-persian-blue-400 font-bold">{field.label}:</span>
+                                                                <span className="font-bold text-persian-blue-900">{field.value || 'N/A'}</span>
+                                                            </div>
+                                                        )
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ) : (
-                                <div className="empty-preview">
-                                    <div className="empty-illustration">
-                                        <Users size={64} className="muted-icon" />
-                                        <div className="pulse-ring"></div>
+                                <div className="flex flex-col items-center justify-center text-center gap-6 py-12 px-6">
+                                    <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center text-orange-200 relative mb-2">
+                                        <Users size={48} className="relative z-10" />
+                                        <div className="absolute inset-0 bg-orange-200/20 rounded-full animate-ping"></div>
                                     </div>
-                                    <p>Start typing to see customer preview</p>
-                                    <span>Your changes will appear here in real-time</span>
+                                    <div className="flex flex-col gap-1.5">
+                                        <p className="text-xl font-bold text-persian-blue-950 tracking-tight">Empty Preview</p>
+                                        <span className="text-persian-blue-400 text-sm font-medium">Add details to see the card real-time</span>
+                                    </div>
                                 </div>
                             )}
                         </div>
                     </div>
 
-                    <div className="pro-tip">
-                        <HelpCircle size={18} />
-                        <p><strong>Pro Tip:</strong> You can add multiple custom fields to track specific customer attributes.</p>
+                    <div className="flex items-center gap-4 p-6 bg-persian-blue-50 rounded-4xl text-persian-blue-900 shadow-xl shadow-persian-blue-100/50 border border-persian-blue-100">
+                        <div className="p-2.5 bg-persian-blue-600 rounded-xl text-white shrink-0 shadow-lg shadow-persian-blue-600/20">
+                             <HelpCircle size={20} />
+                        </div>
+                        <p className="text-sm font-bold leading-relaxed text-persian-blue-800"><strong>Pro Tip:</strong> Use the "Custom Fields" feature to track specific attributes like client timezone or social links.</p>
                     </div>
                 </div>
             </div>
 
             {/* 🟦 BOTTOM SECTION: EXISTING CUSTOMERS */}
-            <div className="existing-customers-section">
-                <div className="section-header-row">
-                    <h2 className="section-title-large">Existing Customers</h2>
-                    <div className="count-pill">{customers.length} total</div>
+            <div className="flex flex-col gap-8 md:gap-10 mt-6 lg:mt-12">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-baseline gap-4">
+                        <h2 className="text-3xl font-bold text-persian-blue-950 tracking-tight">Active Clients</h2>
+                        <span className="px-3.5 py-1.5 bg-persian-blue-100/80 text-persian-blue-600 rounded-full text-[10px] font-bold tracking-widest uppercase">{loading ? '...' : customers.length} Registered</span>
+                    </div>
+                    {/* View Toggle or Filter could go here */}
                 </div>
 
-                <div className="customers-list-grid">
-                    <AnimatePresence>
-                        {customers.map((customer) => (
-                            <motion.div 
-                                layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                key={customer._id} 
-                                className="existing-customer-card"
-                            >
-                                <div className="card-glass-glow"></div>
-                                
-                                {/* 🛠️ Subtle Admin Actions (Floating) */}
-                                <div className="admin-quick-actions">
-                                    <button className="mini-action edit" onClick={() => {/* handle edit */}} title="Edit">
-                                        <Edit2 size={12} />
-                                    </button>
-                                    <button className="mini-action delete" onClick={() => deleteCustomer(customer._id)} title="Delete">
-                                        <Trash2 size={12} />
-                                    </button>
-                                </div>
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-32 bg-white rounded-[3rem] border border-persian-blue-100 shadow-sm gap-6 text-persian-blue-400">
+                        <Loader2 className="animate-spin" size={48} />
+                        <p className="font-bold uppercase tracking-widest text-sm">Synchronizing Data...</p>
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-4">
+                        <AnimatePresence mode="popLayout">
+                            {customers.length > 0 ? (
+                                customers.map((customer) => (
+                                    <motion.div 
+                                        layout
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        key={customer._id} 
+                                        className="group relative"
+                                    >
+                                        <div className="p-6 md:p-8 rounded-[2.5rem] bg-white border border-persian-blue-100 flex flex-col lg:flex-row lg:items-center justify-between gap-8 transition-all duration-500 hover:shadow-2xl hover:shadow-persian-blue-100/40 hover:border-persian-blue-300 relative overflow-hidden">
+                                            {/* Profile & Identity */}
+                                            <div className="flex items-center gap-6 lg:w-[25%] min-w-0">
+                                                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-persian-blue-50 border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-600 font-bold text-xl shadow-md shrink-0 ring-4 ring-white group-hover:scale-105 transition-transform duration-500">
+                                                    {customer.avatar ? (
+                                                        <img src={customer.avatar} alt={customer.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <span>{customer.name && customer.name.charAt(0).toUpperCase()}</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-col min-w-0 flex-1">
+                                                    <h4 className="font-bold text-lg md:text-xl text-persian-blue-950 leading-tight group-hover:text-persian-blue-600 transition-colors truncate">{customer.name}</h4>
+                                                    <p className="text-[10px] font-bold text-persian-blue-400 uppercase tracking-widest mt-1.5 flex items-center gap-2 truncate">
+                                                        <Briefcase size={10} />
+                                                        {customer.company || 'Private Client'}
+                                                    </p>
+                                                </div>
+                                            </div>
 
-                                {/* Floating Quote Badge (Top Right Overlap) */}
-                                <div className="floating-quote-icon">
-                                    <Quote size={16} fill="#a855f7" stroke="none" />
-                                </div>
+                                            {/* Contact Info */}
+                                            <div className="flex flex-wrap items-center gap-4 lg:w-[35%]">
+                                                <div className="flex items-center gap-3 px-3 py-1.5 bg-persian-blue-50 rounded-xl border border-persian-blue-100/50 min-w-[160px] max-w-[220px]">
+                                                    <Mail size={12} className="text-persian-blue-400 shrink-0" />
+                                                    <span className="text-sm font-bold text-persian-blue-900 truncate">{customer.email || 'No Email'}</span>
+                                                </div>
+                                                <div className="flex items-center gap-3 px-3 py-1.5 bg-persian-blue-50 rounded-xl border border-persian-blue-100/50">
+                                                    <Phone size={12} className="text-persian-blue-400 shrink-0" />
+                                                    <span className="text-sm font-bold text-persian-blue-900 whitespace-nowrap">{customer.phone || 'No Phone'}</span>
+                                                </div>
+                                            </div>
 
-                                {/* Dynamic Rating Section */}
-                                <div className="card-rating-top">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star 
-                                            key={i} 
-                                            size={14} 
-                                            fill={i < (customer.rating || 5) ? "#a855f7" : "transparent"} 
-                                            stroke={i < (customer.rating || 5) ? "none" : "#334155"} 
-                                        />
-                                    ))}
-                                </div>
+                                            {/* Metrics / Status */}
+                                            <div className="flex items-center gap-6 lg:w-[20%] lg:justify-center">
+                                                <div className="flex flex-col items-center lg:items-start gap-1">
+                                                     <div className="flex gap-0.5">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star 
+                                                                key={i} 
+                                                                size={12} 
+                                                                fill={i < (customer.rating || 5) ? "#d97706" : "#e9edfb"} 
+                                                                className={i < (customer.rating || 5) ? "text-amber-500" : "text-persian-blue-100"}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <span className="text-[9px] font-bold text-persian-blue-300 uppercase tracking-widest">Satisfaction</span>
+                                                </div>
+                                            </div>
 
-                                {/* Main Quote Content */}
-                                <div className="testimonial-text-content">
-                                    <p>"{customer.notes || "This client has been exceptionally satisfied with our delivery and strategy. The project was completed with top-tier quality and attention to detail."}"</p>
-                                </div>
+                                            {/* Actions */}
+                                            <div className="flex items-center gap-2 shrink-0 lg:justify-end border-t lg:border-t-0 border-persian-blue-50 pt-5 lg:pt-0">
+                                                <button 
+                                                    onClick={() => handleEdit(customer)}
+                                                    className="p-2.5 bg-persian-blue-50 text-persian-blue-600 rounded-xl hover:bg-persian-blue-600 hover:text-white transition-all shadow-sm flex items-center justify-center gap-2 font-bold text-sm h-10 w-10 lg:h-11 lg:w-11"
+                                                    title="Edit Customer"
+                                                >
+                                                    <Edit2 size={16} />
+                                                </button>
+                                                <button 
+                                                    onClick={() => deleteCustomer(customer._id)}
+                                                    className="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm flex items-center justify-center gap-2 font-bold text-sm h-10 w-10 lg:h-11 lg:w-11"
+                                                    title="Delete Customer"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
 
-                                {/* Footer: Avatar + Name + Role */}
-                                <div className="testimonial-footer-row">
-                                    <div className="author-avatar-box">
-                                        {customer.avatar ? (
-                                            <img src={customer.avatar} alt={customer.name} />
-                                        ) : (
-                                            <span>{customer.name && customer.name.charAt(0).toUpperCase()}</span>
-                                        )}
+                                             {/* Visual Decorative Element */}
+                                             <div className="absolute top-0 right-0 p-4 text-persian-blue-50 opacity-10 pointer-events-none">
+                                                <Quote size={80} fill="currentColor" />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))
+                            ) : (
+                                <div className="py-24 bg-white/50 rounded-[3rem] border-2 border-dashed border-persian-blue-100 flex flex-col items-center justify-center text-persian-blue-300 gap-6">
+                                    <div className="w-20 h-20 bg-persian-blue-50 rounded-full flex items-center justify-center">
+                                        <Users size={48} className="opacity-20" />
                                     </div>
-                                    <div className="author-meta-box">
-                                        <h4 className="author-name">{customer.name}</h4>
-                                        <p className="author-role">{customer.company || 'Professional Client'}</p>
-                                    </div>
+                                    <p className="text-xl font-bold">Your client list is currently empty.</p>
                                 </div>
-
-                                {/* Subtle Contact Info (Bottom Edge) */}
-                                <div className="card-contact-hint">
-                                    <span>{customer.email || 'no-email'}</span>
-                                    <span className="dot-sep">•</span>
-                                    <span>{customer.phone || 'no-phone'}</span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                )}
             </div>
         </div>
     );

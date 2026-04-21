@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import ServiceDetail from './pages/ServiceDetail';
-import './App.css';
+import About from './pages/About';
+import ServicesPage from './pages/ServicesPage';
+import Contact from './pages/Contact';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/services" element={<Home />} /> {/* Scroll to services or separate page */}
-        <Route path="/services/:id" element={<ServiceDetail />} />
-        <Route path="/contact" element={<Home />} /> {/* Contact could be a separate page or a scroll */}
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );

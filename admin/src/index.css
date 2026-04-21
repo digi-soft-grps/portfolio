@@ -1,26 +1,59 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
-  color-scheme: light;
-  color: #001433;
-  background-color: #e5f0ff;
+@theme {
+  --color-persian-blue-50: #e9edfb;
+  --color-persian-blue-100: #d3dbf8;
+  --color-persian-blue-200: #a7b7f1;
+  --color-persian-blue-300: #7b93ea;
+  --color-persian-blue-400: #506fe2;
+  --color-persian-blue-500: #244bdb;
+  --color-persian-blue-600: #1d3caf;
+  --color-persian-blue-700: #152d84;
+  --color-persian-blue-800: #0e1e58;
+  --color-persian-blue-900: #070f2c;
+  --color-persian-blue-950: #050b1f;
 
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-outfit: "Outfit", sans-serif;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #e5f0ff;
+@layer base {
+  :root {
+    @apply font-outfit leading-normal;
+    color-scheme: light;
+  }
+
+  body {
+    @apply m-0 flex min-w-[320px] min-h-screen bg-persian-blue-50 text-persian-blue-950 antialiased overflow-x-hidden;
+  }
+
+  #root {
+    @apply w-full mx-auto;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
 }
 
-#root {
-  width: 100%;
-  margin: 0 auto;
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  
+  .glass-dark {
+    @apply bg-persian-blue-900/40 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  .admin-input {
+    @apply w-full bg-white border border-persian-blue-100 rounded-2xl py-3.5 px-5 text-persian-blue-950 font-medium placeholder:text-persian-blue-300 focus:outline-none focus:ring-2 focus:ring-persian-blue-500/10 focus:border-persian-blue-500 transition-all;
+  }
+
+  .admin-btn {
+    @apply px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2;
+  }
+
+  .admin-btn-primary {
+    @apply bg-persian-blue-600 text-white hover:bg-persian-blue-700 shadow-lg shadow-persian-blue-600/20;
+  }
 }
