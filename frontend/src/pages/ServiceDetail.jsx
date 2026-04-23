@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
-import './ServiceDetail.css';
-
 const serviceDetails = {
     'web-development': {
         icon: 'Globe',
@@ -67,75 +65,84 @@ const ServiceDetail = () => {
 
     if (!detail) {
         return (
-            <div className="not-found">
-                <h2>Service Not Found</h2>
-                <Link to="/">Back to Home</Link>
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
+                <h2 className="text-3xl font-bold text-persian-blue-950">Service Not Found</h2>
+                <Link to="/" className="btn btn-primary">Back to Home</Link>
             </div>
         );
     }
 
     return (
-        <>
+        <div className="bg-white min-h-screen">
             <Navbar />
-            <div className="service-detail-page">
-                <section className="container detail-hero">
-                    <Link to="/services" className="back-link">
-                        <ArrowLeft size={16} /> Back to Services
-                    </Link>
-                    
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
+            
+            {/* Header Section */}
+            <section className="pt-48 pb-24 bg-persian-blue-900 relative overflow-hidden text-white">
+                <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-persian-blue-500/10 blur-[150px] -ml-64 -mt-64 rounded-full"></div>
+                
+                <div className="container mx-auto px-4 relative z-10 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="detail-header"
+                        transition={{ duration: 0.8 }}
                     >
-                        <h1 className="detail-title text-gradient">{detail.title}</h1>
-                        <p className="detail-desc">{detail.fullDesc}</p>
+                        <Link to="/services" className="inline-flex items-center gap-2 text-persian-blue-300 hover:text-white font-bold mb-12 transition-all hover:-translate-x-2 group">
+                            <ArrowLeft size={18} className="transition-transform" /> Back to Services
+                        </Link>
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-10 leading-[0.9] tracking-tighter">{detail.title}</h1>
+                        <p className="text-xl md:text-2xl text-persian-blue-200/80 max-w-[850px] mx-auto leading-relaxed font-medium">{detail.fullDesc}</p>
                     </motion.div>
+                </div>
+            </section>
 
-                    <div className="detail-grid">
+            <div className="py-24">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         {/* Benefits */}
-                        <div className="detail-sidebar">
-                            <h3 className="section-subtitle">Why Choose Us?</h3>
-                            <ul className="benefits-list">
+                        <div className="col-span-1">
+                            <h3 className="text-2xl font-bold mb-8 text-persian-blue-950">Why Choose Us?</h3>
+                            <ul className="flex flex-col gap-5 mb-12">
                                 {detail.benefits.map((benefit, i) => (
-                                    <li key={i} className="benefit-item">
-                                        <CheckCircle size={18} className="check-icon" />
+                                    <li key={i} className="flex items-center gap-4 text-persian-blue-800 font-medium">
+                                        <CheckCircle size={20} className="text-persian-blue-600" />
                                         <span>{benefit}</span>
                                     </li>
                                 ))}
                             </ul>
-                            <div className="sidebar-cta">
-                                <h4>Ready to start?</h4>
-                                <p>Get a custom quote for your project today.</p>
-                                <button className="btn btn-primary full-width">Contact Us Now</button>
+                            <div className="p-10 rounded-[3rem] text-center bg-persian-blue-50 border border-persian-blue-100 shadow-xl shadow-persian-blue-100/50">
+                                <h4 className="text-2xl font-bold mb-4 text-persian-blue-950">Ready to start?</h4>
+                                <p className="text-persian-blue-700 mb-8 leading-relaxed">Get a custom quote for your project today.</p>
+                                <button className="bg-persian-blue-600 text-white font-bold w-full py-4 rounded-xl hover:bg-persian-blue-700 transition-all">Contact Us Now</button>
                             </div>
                         </div>
 
                         {/* Plans Grid */}
-                        <div className="plans-content">
-                            <h3 className="section-subtitle">Service Packages</h3>
-                            <div className="plans-grid">
+                        <div className="col-span-1 lg:col-span-2">
+                            <h3 className="text-2xl font-bold mb-8 text-persian-blue-950">Service Packages</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {detail.plans.map((plan, i) => (
                                     <motion.div 
                                         key={i} 
-                                        className="plan-card"
-                                        whileHover={{ scale: 1.02, borderColor: '#0066ff' }}
+                                        className="p-10 rounded-[2.5rem] flex flex-col h-full bg-white border border-persian-blue-100 transition-all duration-300 hover:border-persian-blue-500 hover:shadow-2xl hover:shadow-persian-blue-100 group"
+                                        whileHover={{ y: -5 }}
                                     >
-                                        <div className="plan-header">
-                                            <h4 className="plan-name">{plan.name}</h4>
-                                            <span className="plan-price">{plan.price}</span>
+                                        <div className="flex justify-between items-start mb-6">
+                                            <h4 className="text-xl font-black text-persian-blue-950 max-w-[150px]">{plan.name}</h4>
+                                            <span className="text-sm font-black text-persian-blue-600 bg-persian-blue-50 px-4 py-1.5 rounded-full border border-persian-blue-100">{plan.price}</span>
                                         </div>
-                                        <p className="plan-desc">{plan.desc}</p>
-                                        <button className="plan-btn">Choose Plan &rarr;</button>
+                                        <p className="text-persian-blue-700 text-sm leading-relaxed mb-8 flex-grow">{plan.desc}</p>
+                                        <button className="flex items-center gap-2 font-bold text-sm text-persian-blue-900 hover:text-persian-blue-600 transition-colors">
+                                            Choose Plan <ArrowRight size={16} />
+                                        </button>
                                     </motion.div>
                                 ))}
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 };
 

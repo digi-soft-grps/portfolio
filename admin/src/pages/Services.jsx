@@ -1,6 +1,6 @@
 import React from 'react';
 import ServiceManager from '../components/ServiceManager';
-import './Services.css';
+
 
 const Services = () => {
     return (

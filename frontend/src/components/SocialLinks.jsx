@@ -1,6 +1,4 @@
 import React from 'react';
-import './SocialLinks.css';
-
 const Icons = {
     Instagram: (props) => (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -54,19 +52,19 @@ const socialData = [
 
 const SocialLinks = () => {
     return (
-        <div className="social-links-container">
+        <div className="flex gap-7 items-center justify-center py-5">
             {socialData.map((social) => {
                 const Icon = social.icon;
                 return (
                     <a 
                         key={social.id}
                         href={social.path}
-                        className={`social-btn-icon-only ${social.id}`}
+                        className="flex items-center justify-center no-underline transition-all duration-300 hover:-translate-y-1.5 hover:scale-110 active:scale-95 group"
                         aria-label={social.name}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <Icon className="brand-icon" />
+                        <Icon className="w-8 h-8 transition-all duration-300 group-hover:drop-shadow-[0_8px_15px_rgba(0,0,0,0.3)]" />
                     </a>
                 );
             })}
