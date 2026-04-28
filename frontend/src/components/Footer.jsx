@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Mail, Phone, ArrowRight } from 'lucide-react';
 import SocialLinks from './SocialLinks';
 
 const Footer = () => {
@@ -24,9 +24,9 @@ const Footer = () => {
                         <h4 className="text-lg font-bold mb-8 text-white uppercase tracking-widest text-xs">Services</h4>
                         <ul className="flex flex-col gap-4 text-persian-blue-300">
                             <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Digital Marketing</span></li>
-                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Web and App</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Web Development</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">App Development</span></li>
                             <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">SEO</span></li>
-                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Video and Poster</span></li>
                             <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Social Accounts Handling</span></li>
                         </ul>
                     </div>
@@ -37,15 +37,15 @@ const Footer = () => {
                         <ul className="flex flex-col gap-6 text-persian-blue-300 text-sm">
                             <li className="flex items-center gap-4 group">
                                 <Mail size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
-                                <span className="group-hover:text-white transition-colors">hello@dualdreams.com</span>
+                                <span className="group-hover:text-white transition-colors break-all">dualdreamdigisoft@gmail.com</span>
+                            </li>
+                            <li className="flex items-center gap-4 group">
+                                <Mail size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
+                                <span className="group-hover:text-white transition-colors break-all">dualdreamdigisoft@outlook.com</span>
                             </li>
                             <li className="flex items-center gap-4 group">
                                 <Phone size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
-                                <span className="group-hover:text-white transition-colors">+1 (555) 000-0000</span>
-                            </li>
-                            <li className="flex items-center gap-4 group">
-                                <MapPin size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
-                                <span className="group-hover:text-white transition-colors">Silicon Valley, CA</span>
+                                <span className="group-hover:text-white transition-colors">+91 9360178929</span>
                             </li>
                         </ul>
                     </div>

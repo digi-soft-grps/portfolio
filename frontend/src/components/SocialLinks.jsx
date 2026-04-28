@@ -44,10 +44,10 @@ const Icons = {
 };
 
 const socialData = [
-    { id: 'instagram', name: 'Instagram', icon: Icons.Instagram, path: '#' },
+    { id: 'instagram', name: 'Instagram', icon: Icons.Instagram, path: 'https://www.instagram.com/dualdreamdigisoft' },
     { id: 'youtube', name: 'YouTube', icon: Icons.Youtube, path: '#' },
     { id: 'linkedin', name: 'LinkedIn', icon: Icons.Linkedin, path: '#' },
-    { id: 'whatsapp', name: 'WhatsApp', icon: Icons.Whatsapp, path: '#' }
+    { id: 'whatsapp', name: 'WhatsApp', icon: Icons.Whatsapp, path: 'https://wa.me/919360178929' }
 ];
 
 const SocialLinks = () => {
