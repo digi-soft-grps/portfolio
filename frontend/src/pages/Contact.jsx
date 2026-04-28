@@ -82,6 +82,7 @@ const Contact = () => {
 
     const contactInfo = [
         { icon: Mail, label: 'Email', value: 'dualdreamdigisoft@gmail.com', color: 'bg-blue-50 text-blue-600' },
+        { icon: Mail, label: 'Email', value: 'dualdreamdigisoft@outlook.com', color: 'bg-blue-50 text-blue-600' },
         { icon: Phone, label: 'Phone', value: '+91 9360178929', color: 'bg-green-50 text-green-600' },
     ];
 

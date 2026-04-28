@@ -45,7 +45,7 @@ const Icons = {
 
 const socialData = [
     { id: 'instagram', name: 'Instagram', icon: Icons.Instagram, path: 'https://www.instagram.com/dualdreamdigisoft' },
-    { id: 'youtube', name: 'YouTube', icon: Icons.Youtube, path: '#' },
+    { id: 'youtube', name: 'YouTube', icon: Icons.Youtube, path: 'https://www.youtube.com/@DualDreamDigisoft' },
     { id: 'linkedin', name: 'LinkedIn', icon: Icons.Linkedin, path: '#' },
     { id: 'whatsapp', name: 'WhatsApp', icon: Icons.Whatsapp, path: 'https://wa.me/919360178929' }
 ];
