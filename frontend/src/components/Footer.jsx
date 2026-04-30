@@ -39,10 +39,7 @@ const Footer = () => {
                                 <Mail size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
                                 <span className="group-hover:text-white transition-colors break-all">dualdreamdigisoft@gmail.com</span>
                             </li>
-                            <li className="flex items-center gap-4 group">
-                                <Mail size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
-                                <span className="group-hover:text-white transition-colors break-all">dualdreamdigisoft@outlook.com</span>
-                            </li>
+
                             <li className="flex items-center gap-4 group">
                                 <Phone size={18} className="text-persian-blue-500 group-hover:scale-110 transition-transform" />
                                 <span className="group-hover:text-white transition-colors">+91 9360178929</span>
