@@ -10,7 +10,7 @@ const Contact = () => {
         name: '',
         email: '',
         phone: '',
-        service: 'Web & App Development',
+        service: [],
         otherService: '',
         subject: '',
         message: ''
@@ -36,7 +36,7 @@ const Contact = () => {
             // Handle "Other" service selection
             const submissionData = {
                 ...formData,
-                service: formData.service === 'Other' ? `Other: ${formData.otherService}` : formData.service
+                service: formData.service.map(s => s === 'Other' ? `Other: ${formData.otherService}` : s)
             };
 
             const response = await fetch(`${API}/api/inquiries`, {
@@ -48,7 +48,7 @@ const Contact = () => {
             if (!response.ok) throw new Error('Failed to send inquiry');
             
             setStatus('success');
-            setFormData({ name: '', email: '', service: 'Web & App Development', otherService: '', subject: '', message: '' });
+            setFormData({ name: '', email: '', phone: '', service: [], otherService: '', subject: '', message: '' });
             setTimeout(() => setStatus('idle'), 5000);
         } catch (error) {
             console.error('Contact form error:', error);
@@ -224,29 +224,40 @@ const Contact = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Service Selection */}
                                             <div className="space-y-4">
-                                                <label className="text-sm font-bold text-persian-blue-900 ml-1 block text-left">What service do you need?</label>
+                                                <label className="text-sm font-bold text-persian-blue-900 ml-1 block text-left">What service do you need? (Select all that apply)</label>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    {['Web & App Development', 'Video & Poster', 'Digital Marketing', 'Social Media Handling', 'Other'].map((svc) => (
-                                                        <label key={svc} className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${formData.service === svc ? 'bg-persian-blue-600 border-persian-blue-600 text-white shadow-lg shadow-persian-blue-200' : 'bg-persian-blue-50/50 border-persian-blue-100 text-persian-blue-900 hover:border-persian-blue-300'}`}>
-                                                            <input 
-                                                                type="radio" 
-                                                                name="service"
-                                                                className="hidden"
-                                                                checked={formData.service === svc}
-                                                                onChange={() => setFormData({...formData, service: svc})}
-                                                            />
-                                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.service === svc ? 'border-white' : 'border-persian-blue-200'}`}>
-                                                                {formData.service === svc && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
-                                                            </div>
-                                                            <span className="font-bold text-sm text-left">{svc}</span>
-                                                        </label>
-                                                    ))}
+                                                    {['Web & App Development', 'Video & Poster', 'Digital Marketing', 'Social Media Handling', 'Other'].map((svc) => {
+                                                        const isSelected = formData.service.includes(svc);
+                                                        return (
+                                                            <label key={svc} className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all duration-300 ${isSelected ? 'bg-persian-blue-600 border-persian-blue-600 text-white shadow-lg shadow-persian-blue-200' : 'bg-persian-blue-50/50 border-persian-blue-100 text-persian-blue-900 hover:border-persian-blue-300'}`}>
+                                                                <input 
+                                                                    type="checkbox" 
+                                                                    className="hidden"
+                                                                    checked={isSelected}
+                                                                    onChange={() => {
+                                                                        const newServices = isSelected 
+                                                                            ? formData.service.filter(s => s !== svc)
+                                                                            : [...formData.service, svc];
+                                                                        setFormData({...formData, service: newServices});
+                                                                    }}
+                                                                />
+                                                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${isSelected ? 'border-white bg-white/20' : 'border-persian-blue-200'}`}>
+                                                                    {isSelected && (
+                                                                        <motion.div
+                                                                            initial={{ scale: 0 }}
+                                                                            animate={{ scale: 1 }}
+                                                                            className="w-2.5 h-2.5 bg-white rounded-sm"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                                <span className="font-bold text-sm text-left">{svc}</span>
+                                                            </label>
+                                                        );
+                                                    })}
                                                 </div>
-
                                                 <AnimatePresence>
-                                                    {formData.service === 'Other' && (
+                                                    {formData.service.includes('Other') && (
                                                         <motion.div 
                                                             initial={{ opacity: 0, height: 0 }}
                                                             animate={{ opacity: 1, height: 'auto' }}
