@@ -36,7 +36,7 @@ const Contact = () => {
             // Handle "Other" service selection
             const submissionData = {
                 ...formData,
-                service: formData.service.map(s => s === 'Other' ? `Other: ${formData.otherService}` : s)
+                service: formData.service.map(s => s === 'Other' ? `Other: ${formData.otherService}` : s).join(', ')
             };
 
             const response = await fetch(`${API}/api/inquiries`, {

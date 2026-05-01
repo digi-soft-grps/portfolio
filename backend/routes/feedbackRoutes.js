@@ -71,4 +71,21 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
+// @route   DELETE /api/feedback/:id
+// @desc    Delete a feedback (Admin)
+router.delete('/:id', async (req, res) => {
+  try {
+    const feedback = await Feedback.findByIdAndDelete(req.params.id);
+    
+    if (!feedback) {
+      return res.status(404).json({ message: 'Feedback not found' });
+    }
+
+    res.json({ message: 'Feedback deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting feedback:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 export default router;
