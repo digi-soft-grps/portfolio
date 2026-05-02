@@ -25,7 +25,7 @@ const Navbar = () => {
         <nav className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-500 flex items-center ${scrolled ? 'h-[70px] bg-white/80 backdrop-blur-lg shadow-lg shadow-persian-blue-100/20 border-b border-persian-blue-100' : 'h-[90px] bg-transparent'}`}>
             <div className="container mx-auto px-4 flex justify-between items-center w-full">
                 <Link to="/" className={`text-2xl font-bold tracking-tighter transition-colors duration-500 ${scrolled ? 'text-persian-blue-950' : 'text-white'}`}>
-                    <span>DUAL <span className={scrolled ? 'text-persian-blue-600' : 'text-persian-blue-400'}>DREAM</span></span>
+                    <span>Dual Dream <span className={scrolled ? 'text-persian-blue-600' : 'text-persian-blue-400'}>Digisoft</span></span>
                 </Link>
 
                 {/* Desktop Nav */}

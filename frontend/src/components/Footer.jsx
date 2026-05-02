@@ -11,7 +11,7 @@ const Footer = () => {
                     {/* Brand Info */}
                     <div className="col-span-1 lg:col-span-1">
                         <Link to="/" className="text-2xl font-bold mb-6 block tracking-tighter">
-                            <span>DUAL <span className="text-persian-blue-500">DREAMS</span></span>
+                            <span>Dual Dream <span className="text-persian-blue-500">Digisoft</span></span>
                         </Link>
                         <p className="text-persian-blue-300 text-[1.05rem] leading-relaxed mb-8 max-w-[350px] pl-4 border-l-2 border-persian-blue-600/40 hover:border-persian-blue-400 hover:text-white transition-all duration-300 cursor-default">
                             Where your dreams grow digital
@@ -23,11 +23,12 @@ const Footer = () => {
                     <div className="col-span-1">
                         <h4 className="text-lg font-bold mb-8 text-white uppercase tracking-widest text-xs">Services</h4>
                         <ul className="flex flex-col gap-4 text-persian-blue-300">
-                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Digital Marketing</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Search Engine Optimisation</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Social Media Management</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Content Creation</span></li>
+                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Performance Marketing</span></li>
                             <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Web Development</span></li>
                             <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">App Development</span></li>
-                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">SEO</span></li>
-                            <li><span className="hover:text-persian-blue-400 hover:translate-x-1 transition-all inline-block cursor-default">Social Accounts Handling</span></li>
                         </ul>
                     </div>
 
@@ -51,7 +52,7 @@ const Footer = () => {
                 
                 <div className="pt-12 border-t border-persian-blue-900 flex flex-col md:flex-row justify-between items-center gap-6">
                     <p className="text-persian-blue-400 text-sm font-medium">
-                        © 2024 Dual Dreams. All rights reserved.
+                        © 2024 Dual Dream Digisoft. All rights reserved.
                     </p>
                     <div className="flex gap-8">
                         <a href="#" className="text-persian-blue-400 hover:text-persian-blue-600 text-xs uppercase tracking-widest font-bold transition-colors">Privacy Policy</a>

@@ -65,7 +65,7 @@ const Layout = () => {
       { id: 'services', label: 'Services', path: '/services', icon: Briefcase },
       { id: 'customers', label: 'Customers', path: '/customers', icon: Users },
       { id: 'leads', label: 'Leads', path: '/leads', icon: Mail },
-      { id: 'feedback', label: 'User Feedback', path: '/feedback', icon: Star },
+      { id: 'testimonials', label: 'Testimonials', path: '/testimonials', icon: Star },
     ];
 
     const currentPageTitle = menuItems.find(item => item.path === location.pathname)?.label || 'Portal';
@@ -83,7 +83,7 @@ const Layout = () => {
             <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-persian-blue-900 text-white flex items-center justify-between px-6 z-60 shadow-xl">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-persian-blue-500 rounded-lg flex items-center justify-center font-bold text-sm text-white">DD</div>
-                    <span className="font-bold tracking-tight">Dual Dreams</span>
+                    <span className="font-bold tracking-tight">Dual Dream Digisoft</span>
                 </div>
                 <button 
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -125,7 +125,7 @@ const Layout = () => {
                             animate={{ opacity: 1, x: 0 }}
                             className="text-xl font-bold tracking-tight whitespace-nowrap"
                         >
-                            Dual Dreams
+                            Dual Dream Digisoft
                         </motion.span>
                     )}
                 </div>

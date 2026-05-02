@@ -33,8 +33,7 @@ const Customers = () => {
         phone: '',
         company: '',
         notes: '',
-        avatar: null,
-        rating: 5
+        profileImage: null
     });
     const [customFields, setCustomFields] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,7 +88,7 @@ const Customers = () => {
             }
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormData(prev => ({ ...prev, avatar: reader.result }));
+                setFormData(prev => ({ ...prev, profileImage: reader.result }));
             };
             reader.readAsDataURL(file);
         }
@@ -122,7 +121,7 @@ const Customers = () => {
             // Reset Form
             setEditingId(null);
             setFormData({
-                name: '', email: '', phone: '', company: '', notes: '', avatar: null, rating: 5
+                name: '', email: '', phone: '', company: '', notes: '', profileImage: null
             });
             setCustomFields([]);
         } catch (err) {
@@ -140,8 +139,7 @@ const Customers = () => {
             phone: customer.phone || '',
             company: customer.company || '',
             notes: customer.notes || '',
-            avatar: customer.avatar || null,
-            rating: customer.rating || 5
+            profileImage: customer.profileImage || null
         });
         setCustomFields(customer.customFields ? customer.customFields.map((f, i) => ({ ...f, id: i })) : []);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -176,8 +174,8 @@ const Customers = () => {
                         <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-persian-blue-50/50 rounded-3xl border border-persian-blue-100">
                             <div className="relative group">
                                 <div className="w-20 h-20 rounded-2xl bg-white border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-300">
-                                    {formData.avatar ? (
-                                        <img src={formData.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                                    {formData.profileImage ? (
+                                        <img src={formData.profileImage} alt="Avatar" className="w-full h-full object-cover" />
                                     ) : (
                                         <User size={32} />
                                     )}
@@ -349,8 +347,8 @@ const Customers = () => {
                                     <div className="relative z-20">
                                         <div className="flex items-center gap-5 mb-8">
                                             <div className="w-16 h-16 rounded-2xl bg-white border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-300 shadow-sm">
-                                                {formData.avatar ? (
-                                                    <img src={formData.avatar} alt="Preview" className="w-full h-full object-cover" />
+                                                {formData.profileImage ? (
+                                                    <img src={formData.profileImage} alt="Preview" className="w-full h-full object-cover" />
                                                 ) : (
                                                     <User size={32} />
                                                 )}
@@ -450,8 +448,8 @@ const Customers = () => {
                                             {/* Profile & Identity */}
                                             <div className="flex items-center gap-6 lg:w-[25%] min-w-0">
                                                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-persian-blue-50 border border-persian-blue-100 overflow-hidden flex items-center justify-center text-persian-blue-600 font-bold text-xl shadow-md shrink-0 ring-4 ring-white group-hover:scale-105 transition-transform duration-500">
-                                                    {customer.avatar ? (
-                                                        <img src={customer.avatar} alt={customer.name} className="w-full h-full object-cover" />
+                                                    {customer.profileImage ? (
+                                                        <img src={customer.profileImage} alt={customer.name} className="w-full h-full object-cover" />
                                                     ) : (
                                                         <span>{customer.name && customer.name.charAt(0).toUpperCase()}</span>
                                                     )}
@@ -479,19 +477,7 @@ const Customers = () => {
 
                                             {/* Metrics / Status */}
                                             <div className="flex items-center gap-6 lg:w-[20%] lg:justify-center">
-                                                <div className="flex flex-col items-center lg:items-start gap-1">
-                                                     <div className="flex gap-0.5">
-                                                        {[...Array(5)].map((_, i) => (
-                                                            <Star 
-                                                                key={i} 
-                                                                size={12} 
-                                                                fill={i < (customer.rating || 5) ? "#d97706" : "#e9edfb"} 
-                                                                className={i < (customer.rating || 5) ? "text-amber-500" : "text-persian-blue-100"}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                    <span className="text-[9px] font-bold text-persian-blue-300 uppercase tracking-widest">Satisfaction</span>
-                                                </div>
+                                                {/* Removed rating display */}
                                             </div>
 
                                             {/* Actions */}

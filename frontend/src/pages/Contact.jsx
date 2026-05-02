@@ -19,7 +19,7 @@ const Contact = () => {
     const [feedbackData, setFeedbackData] = useState({
         name: '',
         rating: 5,
-        comment: ''
+        reviewText: ''
     });
 
     const [feedbackStatus, setFeedbackStatus] = useState('idle'); // idle, loading, success
@@ -62,7 +62,7 @@ const Contact = () => {
         setFeedbackStatus('loading');
         try {
             const API = import.meta.env.VITE_API_URL;
-            const response = await fetch(`${API}/api/feedback`, {
+            const response = await fetch(`${API}/api/testimonials`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(feedbackData)
@@ -71,7 +71,7 @@ const Contact = () => {
             if (!response.ok) throw new Error('Failed to submit feedback');
 
             setFeedbackStatus('success');
-            setFeedbackData({ name: '', rating: 5, comment: '' });
+            setFeedbackData({ name: '', rating: 5, reviewText: '' });
             setTimeout(() => setFeedbackStatus('idle'), 5000);
         } catch (error) {
             console.error('Feedback error:', error);
@@ -227,7 +227,7 @@ const Contact = () => {
                                             <div className="space-y-4">
                                                 <label className="text-sm font-bold text-persian-blue-900 ml-1 block text-left">What service do you need? (Select all that apply)</label>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    {['Web & App Development', 'Video & Poster', 'Digital Marketing', 'Social Media Handling', 'Other'].map((svc) => {
+                                                    {['Search Engine Optimisation', 'Social Media Management', 'Content Creation', 'Performance Marketing', 'Web Development', 'App Development', 'Other'].map((svc) => {
                                                         const isSelected = formData.service.includes(svc);
                                                         return (
                                                             <label key={svc} className={`flex items-center gap-3 p-4 rounded-2xl border cursor-pointer transition-all duration-300 ${isSelected ? 'bg-persian-blue-600 border-persian-blue-600 text-white shadow-lg shadow-persian-blue-200' : 'bg-persian-blue-50/50 border-persian-blue-100 text-persian-blue-900 hover:border-persian-blue-300'}`}>
@@ -396,8 +396,8 @@ const Contact = () => {
                                                         required
                                                         rows="1"
                                                         className="w-full bg-white border border-persian-blue-100 rounded-2xl px-6 py-4 text-persian-blue-950 focus:ring-2 focus:ring-persian-blue-500 outline-none transition-all resize-none"
-                                                        value={feedbackData.comment}
-                                                        onChange={(e) => setFeedbackData({ ...feedbackData, comment: e.target.value })}
+                                                        value={feedbackData.reviewText}
+                                                        onChange={(e) => setFeedbackData({ ...feedbackData, reviewText: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
@@ -428,7 +428,7 @@ const Contact = () => {
                             </p>
                             <div className="flex items-center gap-4 pt-6 text-persian-blue-300">
                                 <div className="w-12 h-px bg-persian-blue-100"></div>
-                                <span className="text-xs uppercase tracking-[0.3em] font-bold">Dual Dreams Digisoft</span>
+                                <span className="text-xs uppercase tracking-[0.3em] font-bold">Dual Dream Digisoft</span>
                             </div>
                         </div>
 

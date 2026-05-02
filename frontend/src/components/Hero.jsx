@@ -42,7 +42,7 @@ const Hero = () => {
                     <div className="relative z-10 w-full max-w-[600px] aspect-square flex items-center justify-center">
                         <motion.img 
                             src={DDLogo} 
-                            alt="Dual Dreams Logo" 
+                            alt="Dual Dream Digisoft Logo" 
                             width={800}
                             height={800}
                             className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(59,130,246,0.3)] z-20"

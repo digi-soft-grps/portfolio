@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { Star, Quote, Loader2 } from 'lucide-react';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-const FEEDBACK_API_URL = `${API}/api/feedback/top`;
-const CUSTOMER_API_URL = `${API}/api/customers`;
+const TESTIMONIAL_API_URL = `${API}/api/testimonials/public`;
 
 const TestimonialCard = ({ customer, index }) => {
     return (
@@ -39,14 +38,14 @@ const TestimonialCard = ({ customer, index }) => {
 
                 {/* Review text */}
                 <p className="text-lg italic text-persian-blue-950 leading-relaxed mb-8 flex-grow">
-                    "{customer.comment || customer.notes || "Exceptionally satisfied with the delivery and strategy."}"
+                    "{customer.reviewText || "Exceptionally satisfied with the delivery and strategy."}"
                 </p>
                 
                 {/* Author */}
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden bg-persian-blue-100 flex items-center justify-center font-black text-persian-blue-600 text-xl border border-persian-blue-200/50">
-                        {customer.avatar ? (
-                            <img src={customer.avatar} alt={customer.name} className="w-full h-full object-cover" />
+                        {customer.profileImage ? (
+                            <img src={customer.profileImage} alt={customer.name} className="w-full h-full object-cover" />
                         ) : (
                             customer.name && customer.name.charAt(0).toUpperCase()
                         )}
@@ -70,19 +69,10 @@ const Customers = () => {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const feedbackRes = await fetch(FEEDBACK_API_URL);
-                if (feedbackRes.ok) {
-                    const feedbackData = await feedbackRes.json();
-                    if (feedbackData.length > 0) {
-                        setTestimonials(feedbackData);
-                        setLoading(false);
-                        return;
-                    }
-                }
-                const customerRes = await fetch(CUSTOMER_API_URL);
-                if (customerRes.ok) {
-                    const customerData = await customerRes.json();
-                    setTestimonials(customerData);
+                const response = await fetch(TESTIMONIAL_API_URL);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTestimonials(data);
                 }
             } catch (error) {
                 console.error('Error fetching testimonials:', error);

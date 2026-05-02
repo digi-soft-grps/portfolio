@@ -4,6 +4,7 @@ import { Rocket, Target, Users, Award, CheckCircle2, ArrowRight, ArrowDown } fro
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import OurClients from '../components/OurClients';
 
 const About = () => {
   useEffect(() => {
@@ -88,7 +89,7 @@ const About = () => {
                 Transforming Ideas into <br /> <span className="text-persian-blue-600">Impactful Experiences</span>
               </h2>
               <p className="text-lg text-persian-blue-800 leading-relaxed mb-8">
-                Dual Dream Digisoft is a forward-thinking digital solutions company dedicated to transforming ideas into impactful digital experiences. We specialize in digital marketing, web development, and mobile application development, offering services such as SEO, social media content creation, advertisements, and custom-built websites and apps.
+                Dual Dream Digisoft is a forward-thinking digital solutions company dedicated to transforming ideas into impactful digital experiences. We specialize in Search Engine Optimisation, Social Media Management, Content Creation, Performance Marketing, Web Development, and App Development.
               </p>
               <p className="text-lg text-persian-blue-800 leading-relaxed mb-8">
                 Our approach blends creativity, technology, and strategy to help businesses grow their online presence and reach the right audience effectively. At Dual Dream Digisoft, we work closely with our clients to understand their vision and deliver tailored solutions that drive real results.
@@ -143,6 +144,7 @@ const About = () => {
       </section>
 
 
+      <OurClients />
       <Footer />
     </main>
   );

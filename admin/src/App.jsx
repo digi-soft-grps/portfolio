@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Services from './pages/Services';
 import Customers from './pages/Customers';
 import Leads from './pages/Leads';
-import FeedbackManager from './pages/FeedbackManager';
+import Testimonials from './pages/Testimonials';
 import Layout from './components/Layout';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/leads" element={<Leads />} />
-          <Route path="/feedback" element={<FeedbackManager />} />
+          <Route path="/testimonials" element={<Testimonials />} />
         </Route>
 
         {/* Redirect root to login for now */}

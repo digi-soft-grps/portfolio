@@ -7,6 +7,7 @@ import serviceRoutes from './routes/serviceRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
 import feedbackRoutes from './routes/feedbackRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 
 // Database Connection
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/portfolio';
@@ -43,7 +45,7 @@ mongoose.connect(mongoUri)
 
 // Root Endpoint
 app.get('/', (req, res) => {
-  res.send('Dual Dreams Portfolio Backend API is Running');
+  res.send('Dual Dream Digisoft Portfolio Backend API is Running');
 });
 
 // API Status Endpoint

@@ -78,7 +78,7 @@ const ServicesSection = () => {
                             Strategic Services for <br /> <span className="text-persian-blue-600">Exponential Growth</span>
                         </h2>
                         <p className="text-xl text-persian-blue-800 leading-relaxed font-medium">
-                            At DualDream Digi Soft, we turn ideas into powerful digital experiences.
+                            At Dual Dream Digisoft, we turn ideas into powerful digital experiences.
                             From development to marketing, we blend strategy and technology to create solutions that perform, scale, and grow with your business.
                             We don’t just build—we build for impact.
                         </p>

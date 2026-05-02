@@ -55,7 +55,7 @@ const Login = () => {
             <div className="w-16 h-16 bg-persian-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl mb-5 shadow-2xl shadow-persian-blue-600/30">
                 DD
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-persian-blue-950 mb-2">Dual Dreams Admin</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-persian-blue-950 mb-2">Dual Dream Digisoft Admin</h1>
             <p className="text-persian-blue-500 font-medium">Identity Management Portal</p>
         </div>
 
@@ -118,7 +118,7 @@ const Login = () => {
 
         <div className="mt-10 text-center">
             <p className="text-sm text-persian-blue-400 font-medium">
-                © 2026 Dual Dreams Digital. Internal Access Only.
+                © 2026 Dual Dream Digisoft. Internal Access Only.
             </p>
         </div>
       </div>
